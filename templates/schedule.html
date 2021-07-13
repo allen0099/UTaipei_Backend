@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>選課幫手 - 模擬排課表</title>
+    {% include "font.html" %}
+    <style>
+        /* Show it is fixed to the top */
+        body {
+            padding-top: 4.5rem;
+        }
+
+        #warning li {
+            padding-bottom: 0.5rem;
+        }
+
+        #warning li:last-child {
+            padding-bottom: 0;
+        }
+    </style>
+</head>
+<body>
+{% include 'navbar.html' %}
+<div class="container min-vh-100">
+    <div><p id="title" class="text-center fs-2" style="color: var(--bs-purple)">台北市立大學 {{ year }} 學年度第 {{ semester }} 學期
+        - 模擬排課表</p></div>
+    <div class="row">
+        <div class="offset-lg-2 col-lg-8">
+            <table class="table table-hover table-sm text-center table-bordered">
+                <caption class="visually-hidden">Choose class table</caption>
+                <thead class="table-danger text-center">
+                <tr>
+                    <th scope="col">節次</th>
+                    <th scope="col">星期一</th>
+                    <th scope="col">星期二</th>
+                    <th scope="col">星期三</th>
+                    <th scope="col">星期四</th>
+                    <th scope="col">星期五</th>
+                    <th scope="col">星期六</th>
+                    <th scope="col">星期日</th>
+                </tr>
+                </thead>
+
+                <tbody>
+                <tr>
+                    <th scope="row">
+                        <div class="col">08:10 - 09:00</div>
+                    </th>
+                    <td class="position-relative">
+                        <a class="stretched-link" href="#"></a>
+                    </td>
+                    <td class="position-relative">
+                        <a class="stretched-link" href="#"></a>
+                    </td>
+                    <td class="position-relative">
+                        <a class="stretched-link" href="#"></a>
+                    </td>
+                    <td class="position-relative">
+                        <a class="stretched-link" href="#"></a>
+                    </td>
+                    <td class="position-relative">
+                        <a class="stretched-link" href="#"></a>
+                    </td>
+                    <td class="position-relative">
+                        <a class="stretched-link" href="#"></a>
+                    </td>
+                    <td class="position-relative">
+                        <a class="stretched-link" href="#"></a>
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row">
+                        <div class="col">09:10 - 10:00</div>
+                    </th>
+                    <td class="position-relative">
+                        <a class="stretched-link" href="#"></a>
+                    </td>
+                    <td class="position-relative">
+                        <a class="stretched-link" href="#"></a>
+                    </td>
+                    <td class="position-relative">
+                        <a class="stretched-link" href="#"></a>
+                    </td>
+                    <td class="position-relative">
+                        <a class="stretched-link" href="#"></a>
+                    </td>
+                    <td class="position-relative">
+                        <a class="stretched-link" href="#"></a>
+                    </td>
+                    <td class="position-relative">
+                        <a class="stretched-link" href="#"></a>
+                    </td>
+                    <td class="position-relative">
+                        <a class="stretched-link" href="#"></a>
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row">
+                        <div class="col">10:10 - 11:00</div>
+                    </th>
+                    <td class="position-relative">
+                        <a class="stretched-link" href="#"></a>
+                    </td>
+                    <td class="position-relative">
+                        <a class="stretched-link" href="#"></a>
+                    </td>
+                    <td class="position-relative">
+                        <a class="stretched-link" href="#"></a>
+                    </td>
+                    <td class="position-relative">
+                        <a class="stretched-link" href="#"></a>
+                    </td>
+                    <td class="position-relative">
+                        <a class="stretched-link" href="#"></a>
+                    </td>
+                    <td class="position-relative">
+                        <a class="stretched-link" href="#"></a>
+                    </td>
+                    <td class="position-relative">
+                        <a class="stretched-link" href="#"></a>
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row">
+                        <div class="col">11:10 - 12:00</div>
+                    </th>
+                    <td class="position-relative">
+                        <a class="stretched-link" href="#"></a>
+                    </td>
+                    <td class="position-relative">
+                        <a class="stretched-link" href="#"></a>
+                    </td>
+                    <td class="position-relative">
+                        <a class="stretched-link" href="#"></a>
+                    </td>
+                    <td class="position-relative">
+                        <a class="stretched-link" href="#"></a>
+                    </td>
+                    <td class="position-relative">
+                        <a class="stretched-link" href="#"></a>
+                    </td>
+                    <td class="position-relative">
+                        <a class="stretched-link" href="#"></a>
+                    </td>
+                    <td class="position-relative">
+                        <a class="stretched-link" href="#"></a>
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row">
+                        <div class="col">12:10 - 13:00</div>
+                    </th>
+                    <td class="position-relative">
+                        <a class="stretched-link" href="#"></a>
+                    </td>
+                    <td class="position-relative">
+                        <a class="stretched-link" href="#"></a>
+                    </td>
+                    <td class="position-relative">
+                        <a class="stretched-link" href="#"></a>
+                    </td>
+                    <td class="position-relative">
+                        <a class="stretched-link" href="#"></a>
+                    </td>
+                    <td class="position-relative">
+                        <a class="stretched-link" href="#"></a>
+                    </td>
+                    <td class="position-relative">
+                        <a class="stretched-link" href="#"></a>
+                    </td>
+                    <td class="position-relative">
+                        <a class="stretched-link" href="#"></a>
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row">
+                        <div class="col">13:10 - 14:00</div>
+                    </th>
+                    <td class="position-relative">
+                        <a class="stretched-link" href="#"></a>
+                    </td>
+                    <td class="position-relative">
+                        <a class="stretched-link" href="#"></a>
+                    </td>
+                    <td class="position-relative">
+                        <a class="stretched-link" href="#"></a>
+                    </td>
+                    <td class="position-relative">
+                        <a class="stretched-link" href="#"></a>
+                    </td>
+                    <td class="position-relative">
+                        <a class="stretched-link" href="#"></a>
+                    </td>
+                    <td class="position-relative">
+                        <a class="stretched-link" href="#"></a>
+                    </td>
+                    <td class="position-relative">
+                        <a class="stretched-link" href="#"></a>
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row">
+                        <div class="col">14:10 - 15:00</div>
+                    </th>
+                    <td class="position-relative">
+                        <a class="stretched-link" href="#"></a>
+                    </td>
+                    <td class="position-relative">
+                        <a class="stretched-link" href="#"></a>
+                    </td>
+                    <td class="position-relative">
+                        <a class="stretched-link" href="#"></a>
+                    </td>
+                    <td class="position-relative">
+                        <a class="stretched-link" href="#"></a>
+                    </td>
+                    <td class="position-relative">
+                        <a class="stretched-link" href="#"></a>
+                    </td>
+                    <td class="position-relative">
+                        <a class="stretched-link" href="#"></a>
+                    </td>
+                    <td class="position-relative">
+                        <a class="stretched-link" href="#"></a>
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row">
+                        <div class="col">15:10 - 16:00</div>
+                    </th>
+                    <td class="position-relative">
+                        <a class="stretched-link" href="#"></a>
+                    </td>
+                    <td class="position-relative">
+                        <a class="stretched-link" href="#"></a>
+                    </td>
+                    <td class="position-relative">
+                        <a class="stretched-link" href="#"></a>
+                    </td>
+                    <td class="position-relative">
+                        <a class="stretched-link" href="#"></a>
+                    </td>
+                    <td class="position-relative">
+                        <a class="stretched-link" href="#"></a>
+                    </td>
+                    <td class="position-relative">
+                        <a class="stretched-link" href="#"></a>
+                    </td>
+                    <td class="position-relative">
+                        <a class="stretched-link" href="#"></a>
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row">
+                        <div class="col">16:10 - 17:00</div>
+                    </th>
+                    <td class="position-relative">
+                        <a class="stretched-link" href="#"></a>
+                    </td>
+                    <td class="position-relative">
+                        <a class="stretched-link" href="#"></a>
+                    </td>
+                    <td class="position-relative">
+                        <a class="stretched-link" href="#"></a>
+                    </td>
+                    <td class="position-relative">
+                        <a class="stretched-link" href="#"></a>
+                    </td>
+                    <td class="position-relative">
+                        <a class="stretched-link" href="#"></a>
+                    </td>
+                    <td class="position-relative">
+                        <a class="stretched-link" href="#"></a>
+                    </td>
+                    <td class="position-relative">
+                        <a class="stretched-link" href="#"></a>
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row">
+                        <div class="col">17:10 - 18:00</div>
+                    </th>
+                    <td class="position-relative">
+                        <a class="stretched-link" href="#"></a>
+                    </td>
+                    <td class="position-relative">
+                        <a class="stretched-link" href="#"></a>
+                    </td>
+                    <td class="position-relative">
+                        <a class="stretched-link" href="#"></a>
+                    </td>
+                    <td class="position-relative">
+                        <a class="stretched-link" href="#"></a>
+                    </td>
+                    <td class="position-relative">
+                        <a class="stretched-link" href="#"></a>
+                    </td>
+                    <td class="position-relative">
+                        <a class="stretched-link" href="#"></a>
+                    </td>
+                    <td class="position-relative">
+                        <a class="stretched-link" href="#"></a>
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row">
+                        <div class="col">18:10 - 19:00</div>
+                    </th>
+                    <td class="position-relative">
+                        <a class="stretched-link" href="#"></a>
+                    </td>
+                    <td class="position-relative">
+                        <a class="stretched-link" href="#"></a>
+                    </td>
+                    <td class="position-relative">
+                        <a class="stretched-link" href="#"></a>
+                    </td>
+                    <td class="position-relative">
+                        <a class="stretched-link" href="#"></a>
+                    </td>
+                    <td class="position-relative">
+                        <a class="stretched-link" href="#"></a>
+                    </td>
+                    <td class="position-relative">
+                        <a class="stretched-link" href="#"></a>
+                    </td>
+                    <td class="position-relative">
+                        <a class="stretched-link" href="#"></a>
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row">
+                        <div class="col">19:10 - 20:00</div>
+                    </th>
+                    <td class="position-relative">
+                        <a class="stretched-link" href="#"></a>
+                    </td>
+                    <td class="position-relative">
+                        <a class="stretched-link" href="#"></a>
+                    </td>
+                    <td class="position-relative">
+                        <a class="stretched-link" href="#"></a>
+                    </td>
+                    <td class="position-relative">
+                        <a class="stretched-link" href="#"></a>
+                    </td>
+                    <td class="position-relative">
+                        <a class="stretched-link" href="#"></a>
+                    </td>
+                    <td class="position-relative">
+                        <a class="stretched-link" href="#"></a>
+                    </td>
+                    <td class="position-relative">
+                        <a class="stretched-link" href="#"></a>
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row">
+                        <div class="col">20:10 - 21:00</div>
+                    </th>
+                    <td class="position-relative">
+                        <a class="stretched-link" href="#"></a>
+                    </td>
+                    <td class="position-relative">
+                        <a class="stretched-link" href="#"></a>
+                    </td>
+                    <td class="position-relative">
+                        <a class="stretched-link" href="#"></a>
+                    </td>
+                    <td class="position-relative">
+                        <a class="stretched-link" href="#"></a>
+                    </td>
+                    <td class="position-relative">
+                        <a class="stretched-link" href="#"></a>
+                    </td>
+                    <td class="position-relative">
+                        <a class="stretched-link" href="#"></a>
+                    </td>
+                    <td class="position-relative">
+                        <a class="stretched-link" href="#"></a>
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row">
+                        <div class="col">21:10 - 22:00</div>
+                    </th>
+                    <td class="position-relative">
+                        <a class="stretched-link" href="#"></a>
+                    </td>
+                    <td class="position-relative">
+                        <a class="stretched-link" href="#"></a>
+                    </td>
+                    <td class="position-relative">
+                        <a class="stretched-link" href="#"></a>
+                    </td>
+                    <td class="position-relative">
+                        <a class="stretched-link" href="#"></a>
+                    </td>
+                    <td class="position-relative">
+                        <a class="stretched-link" href="#"></a>
+                    </td>
+                    <td class="position-relative">
+                        <a class="stretched-link" href="#"></a>
+                    </td>
+                    <td class="position-relative">
+                        <a class="stretched-link" href="#"></a>
+                    </td>
+                </tr>
+                </tbody>
+                <tfoot>
+                <tr>
+                    <td class="table" colspan="8">總共正課數: 0　　　總共學分數: 0</td>
+                </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+</div>
+{% include 'footerjs.html' %}
+</body>
+</html>

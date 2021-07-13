@@ -1,0 +1,90 @@
+<footer class="footer container-fluid py-5 mt-5 bg-light">
+    <div class="container py-5">
+        <div class="container">
+            <div class="row justify-content-md-center">
+                <div class="col-md-auto position-relative text-center">
+                    <a class="fs-2 stretched-link link-dark" href="https://github.com/allen0099/UTaipei_SelectHelper">
+                        <i class="bi bi-github"></i>
+                    </a>
+                    <h4>GitHub</h4>
+                </div>
+            </div>
+            <hr>
+            <div class="text-center">
+                <p class="text-xl-center">
+                    建議使用最新版本 Google Chrome / Mozilla Firefox / Edge 或相容 W3C 網頁標準之最新版瀏覽器，以獲得最佳瀏覽體驗
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/js-cookie@rc/dist/js.cookie.min.js"></script>
+<div class="modal fade" id="alert_box" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false"
+     aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="exampleModalLabel">注意事項</h4>
+            </div>
+            <div class="modal-body">
+                <ol id="warning">
+                    <li>此排課表<span class="text-danger">僅供學生個人排課參考</span>，正式選課請上
+                        <a href="http://my.utaipei.edu.tw/utaipei/index_sky.html">台北市立大學校務系統</a>
+                        進行線上加退選。
+                    </li>
+                    <li>本網站無須登入即可使用。</li>
+                </ol>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="confirm_alert();" data-bs-dismiss="modal">
+                    我已閱讀並同意
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    // from bootstrap document
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+        return new bootstrap.Tooltip(tooltipTriggerEl)
+    })
+
+    let settings;
+    (async () => {
+        async function getSettings() {
+            if (Cookies.get('settings') === undefined) {
+                return new Promise(resolve => {
+                    $.getJSON('api/settings', function (data) {
+                        data.read = false;
+                        Cookies.set('settings', JSON.stringify(data));
+                        resolve(data);
+                    });
+                })
+            } else {
+                return JSON.parse(Cookies.get('settings'));
+            }
+        }
+
+        settings = await getSettings()
+        console.log(settings);
+
+        if (!settings["read"]) {
+            var myModal = new bootstrap.Modal($('#alert_box'));
+            myModal.show();
+        }
+    })();
+
+    function confirm_alert() {
+        settings["read"] = true;
+        Cookies.set('settings', JSON.stringify(settings));
+    }
+</script>

@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>選課幫手 - 查詢選課</title>
+    {% include "font.html" %}
+    <style>
+        /* Show it is fixed to the top */
+        body {
+            padding-top: 4.5rem;
+        }
+
+        #warning li {
+            padding-bottom: 0.5rem;
+        }
+
+        #warning li:last-child {
+            padding-bottom: 0;
+        }
+    </style>
+</head>
+<body>
+{% include 'navbar.html' %}
+<div class="container min-vh-100">
+    <div><p id="title" class="text-center fs-2" style="color: var(--bs-purple)">科目與教師開課班級查詢</p></div>
+    <form class="offset-lg-2 col-lg-8 bg-light p-5 rounded" action="/api/choose" method="post">
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <div class="bi bi-x-circle-fill fs-5"> {{ message }}</div>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                aria-label="Close"></button>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        <div class="mb-3 row justify-content-center">
+            <label for="degree" class="col-sm-2 col-form-label">學制</label>
+            <div class="col-sm-6">
+                <select id="degree" name="degree" class="form-select">
+                    <option value="14">大學部</option>
+                    <option value="16">碩士班</option>
+                    <option value="17">博士班</option>
+                    <option value="46">在職碩士班</option>
+                    <option value="71">師資培育中心</option>
+                    <option value="%">所有學制</option>
+                </select>
+                <div class="form-text">查詢師培課程，學制請選擇「所有學制」</div>
+            </div>
+        </div>
+        <div class="mb-3 row justify-content-center">
+            <label for="department" class="col-sm-2 col-form-label">學院</label>
+            <div class="col-sm-6">
+                <select id="department" name="department" class="form-select" onchange="getShowData(this)" required>
+                    <option value="" selected disabled>--- 請選擇 ---</option>
+                    <option value="24">師資培育中心</option>
+                    <option value="51">進修推廣處</option>
+                    <option value="UZ">市政管理學院</option>
+                    <option value="WZ">教育學院</option>
+                    <option value="XS">校共同科目</option>
+                    <option value="XZ">人文藝術學院</option>
+                    <option value="YZ">理學院</option>
+                    <option value="ZZ">體育學院</option>
+                    <option value="%">所有學院</option>
+                </select>
+            </div>
+        </div>
+        <div class="mb-3 row justify-content-center">
+            <label for="unit" class="col-sm-2 col-form-label">科系</label>
+            <div class="col-sm-6">
+                <select id="unit" name="unit" class="form-select" required>
+                    <option value="" selected disabled>--- 請選擇 ---</option>
+                </select>
+            </div>
+        </div>
+        <div class="mb-3 row justify-content-center">
+            <label for="year" class="col-sm-2 col-form-label">年級</label>
+            <div class="col-sm-6">
+                <select id="year" name="year" class="form-select">
+                    <option value="0">0</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="%" selected>所有年級</option>
+                </select>
+                <div class="form-text">查詢通識教育中心課程，年級請選擇 "0"</div>
+            </div>
+        </div>
+        <div class="mb-3 row justify-content-center">
+            <label for="type" class="col-sm-2 col-form-label">類別</label>
+            <div class="col-sm-6">
+                <select id="type" name="type" class="form-select">
+                    <option value="%" selected>所有類別</option>
+                    <option value="a1">校定必修</option>
+                    <option value="a2">共同必修</option>
+                    <option value="a3">校定必修(學科)</option>
+                    <option value="a7">院定必修</option>
+                    <option value="aa">國文類</option>
+                    <option value="ab">英文類</option>
+                    <option value="ac">體育類</option>
+                    <option value="ad">軍訓類</option>
+                    <option value="ae">服務學習類</option>
+                    <option value="b1">系定必修</option>
+                    <option value="b2">系定必修(學科)</option>
+                    <option value="b3">系定必修(術科)</option>
+                    <option value="b4">系定選修</option>
+                    <option value="b5">系定選修(學科)</option>
+                    <option value="b6">系定選修(術科)</option>
+                    <option value="b7">專長(水陸球技藝)</option>
+                    <option value="b8">選修專長(水陸球技藝)</option>
+                    <option value="b9">學科</option>
+                    <option value="ba">術科</option>
+                    <option value="Bc">共同選修</option>
+                    <option value="BN">藝術與美感領域</option>
+                    <option value="BO">人文與文化思考領域</option>
+                    <option value="BP">公民素養與社會探索領域</option>
+                    <option value="BQ">自然、生命與科技領域</option>
+                    <option value="c1">分組必修</option>
+                    <option value="c2">分組必修(學科)</option>
+                    <option value="C2">術科</option>
+                    <option value="c3">分組必修(術科)</option>
+                    <option value="c4">分組選修</option>
+                    <option value="c5">分組選修(學科)</option>
+                    <option value="c6">分組選修(術科)</option>
+                    <option value="F1">學科</option>
+                    <option value="i1">學分學程必修</option>
+                    <option value="j1">教學基本學科課程</option>
+                    <option value="j2">教育基礎課程</option>
+                    <option value="j3">教育方法課程</option>
+                    <option value="j4">教材教法及教學實習課程</option>
+                    <option value="j5">選修課程</option>
+                    <option value="k2">教育基礎課程</option>
+                    <option value="k3">教育方法課程</option>
+                    <option value="l0">特殊教育專業課程</option>
+                    <option value="l3">一般教育專業課程(中等學校教育階段)</option>
+                    <option value="l4">共同專業課程</option>
+                    <option value="l5">身心障礙類專業課程(必修)</option>
+                    <option value="l8">資賦優異類專業課程(必修)</option>
+                    <option value="l9">特殊需求與領域調整課程</option>
+                </select>
+                <div class="form-text">備註：這個欄位沒什麼用，你可以忽略它 :)</div>
+            </div>
+        </div>
+        <div class="mb-3 row justify-content-center">
+            <label for="attr" class="col-sm-2 col-form-label">屬性</label>
+            <div class="col-sm-6">
+                <select id="attr" name="attr" class="form-select">
+                    <option value="" selected></option>
+                    <option value="1">全英語授課(English-taught Courses)</option>
+                </select>
+            </div>
+        </div>
+        <div class="mb-3 row justify-content-center">
+            <label for="subject" class="col-sm-2 col-form-label">科目</label>
+            <div class="col-sm-6">
+                <input type="text" class="form-control" id="subject" name="subject">
+            </div>
+        </div>
+        <div class="mb-3 row justify-content-center">
+            <label for="teacher" class="col-sm-2 col-form-label">教師</label>
+            <div class="col-sm-6">
+                <input type="text" class="form-control" id="teacher" name="teacher">
+            </div>
+        </div>
+        <div class="d-grid gap-2 col-4 mx-auto">
+            <button type="submit" class="btn btn-primary">查詢</button>
+        </div>
+    </form>
+</div>
+{% include 'footerjs.html' %}
+<script>
+    function getShowData(obj) {
+        $.getJSON('api/get_unit?dept=' + obj.value, function (data) {
+            options = $('#unit');
+            options.empty();
+            options.append('<option value="" selected disabled>--- 請選擇 ---</option>');
+            for (const datum of data) {
+                options.append("<option value='" + Object.values(datum)[0] + "'>" + Object.keys(datum)[0] + "</option>");
+            }
+        });
+    }
+</script>
+</body>
+</html>
