@@ -1,6 +1,6 @@
 from flask import jsonify, make_response
 
-from api import api
+from routes.api import api
 from functions import get_semester, get_year
 
 

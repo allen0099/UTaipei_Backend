@@ -3,46 +3,39 @@ import sys
 from pathlib import Path
 
 from dotenv import load_dotenv
-from flask import Flask, flash, redirect, render_template, session, url_for
+from flask import Flask
+from flask_apscheduler import APScheduler
 from flask_session import Session
-
-from api import api
-from api.settings import get_semester, get_year
 
 load_dotenv(dotenv_path=str(Path(sys.argv[0]).parent / ".env"), verbose=True)
 
-app = Flask(__name__)
-SESSION_TYPE = 'filesystem'
-app.config['SECRET_KEY'] = os.getenv("API_ID")
-app.config['SESSION_FILE_DIR'] = './session'
-app.config.from_object(__name__)
-Session(app)
-app.register_blueprint(api)
+scheduler = APScheduler()
 
 
-@app.route('/')
-def search():
-    return render_template('search.html')
+def create_app() -> Flask:
+    """Create a new app instance."""
+    app: Flask = Flask(__name__)
 
+    app.config['SECRET_KEY'] = os.getenv("API_ID")
+    app.config['SESSION_TYPE'] = 'filesystem'
+    app.config['SESSION_FILE_DIR'] = './session'
 
-@app.route('/result')
-def result():
-    # TODO: add warning sign at the last col in result table
-    if session.get("data"):
-        data: dict = session.get("data")
-        if data.get("error"):
-            flash(data.get("error"))
-            return redirect(url_for('search'))
-        total = data["total"]
-        classes = data["classes"]
-        return render_template('result.html', total=total, classes=classes)
-    return redirect(url_for('search'))
+    Session(app)
+    scheduler.init_app(app)
 
+    with app.app_context():
+        import schedule
+        print(schedule)
+        scheduler.start()
 
-@app.route('/my_table')
-def hello_world():
-    return render_template('schedule.html', year=get_year(), semester=get_semester())
+        # register blueprints
+        from routes.api import api
+        app.register_blueprint(api)
+        from routes import web_routes
+        app.register_blueprint(web_routes)
+
+        return app
 
 
 if __name__ == '__main__':
-    app.run()
+    create_app().run()

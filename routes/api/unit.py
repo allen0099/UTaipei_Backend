@@ -3,7 +3,7 @@ from flask import abort, jsonify, make_response, request
 from lxml import etree
 from lxml.etree import _Element
 
-from api import api
+from routes.api import api
 from functions import get_semester, get_year
 
 

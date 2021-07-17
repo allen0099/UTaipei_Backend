@@ -1,0 +1,2 @@
+class ParsedData:
+    id: int

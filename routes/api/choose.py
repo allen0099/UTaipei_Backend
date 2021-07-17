@@ -1,6 +1,6 @@
 import json
 import re
-from collections import Iterator
+
 from typing import Any
 from urllib.parse import unquote
 
@@ -9,57 +9,8 @@ from flask import Response, abort, redirect, request, session, url_for
 from lxml import etree
 from lxml.etree import _Element
 
-from api import api
-
-
-class CollectClass:
-    def __init__(self, cols: Iterator):
-        def get_text() -> str:
-            text: str = next(cols).text
-            if text is not None:
-                return text.replace('\xa0', '').replace('\u3000', '')
-            else:
-                return ""
-
-        self.class_name = get_text()
-        self.course_code = get_text()
-        self.category = get_text()
-        self.chinese_name = get_text()
-        self.english_name = get_text()
-        self.credit = get_text()
-        self.full_half = get_text()
-        self.req_select = get_text()
-        self.lecturing_hours = get_text()
-
-        people_counts = get_text().split('/')
-        self.enrolled_max = people_counts[0]
-        self.enrolled_min = people_counts[1]
-        self.enrolled_current = people_counts[2]
-
-        self.campus = get_text()
-
-        tmp = get_text()
-        reg = re.findall(r'(?P<teacher>.*)\((?P<day>(?<=\().(?=\)))\)(?P<time>\d{1,3}-\d{1,3})', tmp)
-
-        if reg:
-            self.teacher = reg[0][0]
-            self.day = reg[0][1]
-            _split = reg[0][2].split('-', maxsplit=1)
-            self.time = [_ for _ in range(int(_split[0]), int(_split[1]) + 1)]
-        else:
-            self.teacher = tmp
-
-        self.mixed_class = get_text()
-        self.syllabus = re.findall(r"(?<=go_next\(').+(?='\))", next(cols).attrib['onclick'])[0]
-        self.notes = get_text()
-
-    def to_dict(self) -> dict:
-        ret: dict = {}
-        for _ in [_ for _ in dir(self) if
-                  not _.startswith('_') and
-                  not hasattr(getattr(self, _), '__call__')]:
-            ret[_] = getattr(self, _)
-        return ret
+from routes.api import api
+from classes import Collection
 
 
 @api.route("/choose", methods=['POST'])
@@ -160,17 +111,17 @@ def choose() -> Response:
 
     class_table: list[_Element] = root.xpath("//body//table[@id='list_table']//tr[not(@align='center')]")
 
-    list_classes: list[CollectClass] = []
+    list_classes: list[Collection] = []
 
     if total > 0:
         for row in class_table:
-            class_ = CollectClass(iter(row))
+            class_ = Collection(iter(row))
             list_classes.append(class_)
 
     response["total"] = total
     response["classes"] = [_.to_dict() for _ in list_classes]
     session["data"] = response
-    return redirect(url_for('result'))
+    return redirect(url_for('routes.result'))
 
 
 def values(year, semester) -> dict[str, list[str]]:

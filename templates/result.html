@@ -58,19 +58,19 @@
                         <th scope="row"></th>
                         <td>{{ class["class_name"] }}</td>
                         <td>
-                            <form name="thisform" method="post" target="new"
+                            <form name="form" method="post" target="new"
                                   action="http://shcourse.utaipei.edu.tw/utaipei/ag_pro/ag064_print.jsp">
-                                <input type="hidden" name="arg01" value="110">
-                                <input type="hidden" name="arg02" value="1">
+                                <input type="hidden" name="arg01" value="{{ year }}">
+                                <input type="hidden" name="arg02" value="{{ semester }}">
                                 <input type="hidden" name="arg04" value="{{ class["syllabus"] }}">
-                                <a class="link-primary"
+                                <a href="#" class="link-primary"
                                    onclick="this.parentNode.submit();">{{ class["course_code"] }}</a>
                             </form>
                         </td>
                         <td>{{ class["category"] }}</td>
                         <td>
                             <p class="text-center" data-bs-toggle="tooltip"
-                                    data-bs-placement="top" title="{{ class["english_name"] }}">
+                               data-bs-placement="top" title="{{ class["english_name"] }}">
                                 {{ class["chinese_name"] }}
                             </p>
                         </td>
@@ -89,7 +89,25 @@
                                 {{ time }}{{ ", " if not loop.last else "" }}
                             {% endfor %}
                         </td>
-                        <td>{{ class[""] }}</td>
+                        <td>
+                            {% if class["notes"] != ' ' %}
+                                <div class="text-center" data-bs-toggle="tooltip"
+                                     data-bs-placement="top" title="{{ class["notes"] }}">
+                                    <div class="bi bi-exclamation-circle"></div>
+                                </div>
+                            {% endif %}
+                            {% if class["limit"] %}
+                                <form name="notes" method="post" target="new"
+                                      action="http://shcourse.utaipei.edu.tw/utaipei/ag_pro/ag203_limit.jsp">
+                                    <input type="hidden" name="ls_year" value="{{ year }}">
+                                    <input type="hidden" name="ls_sms" value="{{ semester }}">
+                                    <input type="hidden" name="data" value="{{ class["course_code"] }}">
+                                    <a href="#" class="link" onclick="this.parentNode.submit();">
+                                        限修
+                                    </a>
+                                </form>
+                            {% endif %}
+                        </td>
                     </tr>
                 {% endfor %}
                 </tbody>
