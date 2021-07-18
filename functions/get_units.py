@@ -1,3 +1,8 @@
+import requests
+from lxml import etree
+from lxml.etree import _Element
+from werkzeug.exceptions import abort
+
 from .get_semester import get_semester
 from .get_year import get_year
 
