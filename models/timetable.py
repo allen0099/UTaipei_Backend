@@ -9,8 +9,10 @@ class Timetable(db.Model):
     weekday = db.Column(db.String)
     time = db.Column(db.String)
 
-    def __init__(self):
-        pass
+    def __init__(self, id, weekday, time):
+        self.class_id = id
+        self.weekday = weekday
+        self.time = time
 
     def __repr__(self):
-        return f"{self.id}"
+        return f"{self.class_id} -> {self.weekday}{self.time}"
