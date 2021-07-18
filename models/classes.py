@@ -1,5 +1,7 @@
 from app import db
 from .collection import Collection
+from .teachers import Teachers
+from .timetable import Timetable
 
 
 class Classes(db.Model):
@@ -32,8 +34,23 @@ class Classes(db.Model):
     notes = db.Column(db.String)
     limit = db.Column(db.Boolean)
 
-    teachers = db.relationship('Teachers', backref='class_', lazy=True, cascade="all, delete-orphan")
-    times = db.relationship('Timetable', backref='class_', lazy=True, cascade="all, delete-orphan")
+    teachers: list[Teachers] = db.relationship('Teachers', backref='class_', lazy='subquery',
+                                               cascade="all, delete-orphan")
+    _times: list[Timetable] = db.relationship('Timetable', backref='class_', lazy='subquery',
+                                              cascade="all, delete-orphan")
+
+    @property
+    def times(self) -> list:
+        results = []
+        for _ in self._times:
+            if _.weekday in [k[0] for k in results]:
+                for result in results:
+                    if _.weekday == result[0]:
+                        result[1].append(_.time)
+            else:
+                results.append((_.weekday, [_.time]))
+
+        return results
 
     def __init__(self, sc: Collection, degree, department, unit, cls_year):
         self.id = sc.course_code

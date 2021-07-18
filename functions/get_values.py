@@ -3,6 +3,8 @@ from lxml import etree
 from lxml.etree import _Element
 from werkzeug.exceptions import abort
 
+from . import get_crk
+
 
 def get_values(year, semester) -> dict[str, list[str]]:
     url: str = "http://shcourse.utaipei.edu.tw/utaipei/ag_pro/ag203.jsp"
@@ -43,6 +45,7 @@ def get_values(year, semester) -> dict[str, list[str]]:
         "degree": [_.attrib['value'] for _ in degree],
         "department": [_.attrib['value'] for _ in department],
         "unit": [_.attrib['value'] for _ in unit],
+        "crk": get_crk(year, semester),
         "class_year": [_.attrib['value'] for _ in class_year],
         "class_type": [_.attrib['value'] for _ in class_type],
     }

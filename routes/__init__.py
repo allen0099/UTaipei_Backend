@@ -1,6 +1,7 @@
-from flask import Blueprint, flash, redirect, render_template, session, url_for
+from flask import Blueprint, redirect, render_template, session, url_for
 
 from functions import get_semester, get_year
+from models import Classes
 
 web_routes: Blueprint = Blueprint("routes", __name__)
 
@@ -13,14 +14,10 @@ def search():
 @web_routes.route('/result')
 def result():
     if session.get("data"):
-        data: dict = session.get("data")
-        if data.get("error"):
-            flash(data.get("error"))
-            return redirect(url_for('routes.search'))
-        total = data["total"]
-        classes = data["classes"]
-        return render_template('result.html', total=total, classes=classes, year=get_year(), semester=get_semester())
-    return redirect(url_for('search'))
+        data: list[Classes] = session.get("data")
+        total = len(data)
+        return render_template('result.html', total=total, classes=data, year=get_year(), semester=get_semester())
+    return redirect(url_for('routes.search'))
 
 
 @web_routes.route('/my_table')

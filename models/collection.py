@@ -17,6 +17,7 @@ class Collection:
         self.class_name = get_text()
         self.course_code = get_text()
         self.category = get_text()
+        # todo: close classes
         self.chinese_name = get_text()
         self.english_name = get_text()
         self.credit = get_text()

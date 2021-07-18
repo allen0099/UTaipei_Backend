@@ -1,3 +1,4 @@
+from .get_crk import get_crk
 from .get_semester import get_semester
 from .get_units import get_units
 from .get_values import get_values
