@@ -25,99 +25,97 @@
 {% include 'navbar.html' %}
 <div class="container min-vh-100">
     <div><p id="title" class="text-center fs-2" style="color: var(--bs-purple)">課程查詢結果</p></div>
-    <div class="row">
-        <div class="col align-self-center">
-            <table class="table table-hover table-sm text-center table-bordered">
-                <caption class="visually-hidden">Choose class table</caption>
-                <thead class="table-info">
+    <div class="table-responsive">
+        <table class="table table-sm table-bordered text-nowrap text-center align-middle">
+            <thead class="table-info">
+            <tr>
+                <th rowspan="2">選擇</th>
+                <th rowspan="2">班級</th>
+                <th rowspan="2">選課代號</th>
+                <th rowspan="2">類別</th>
+                <th rowspan="2">科目</th>
+                <th rowspan="2">學分數</th>
+                <th rowspan="2">開課別</th>
+                <th rowspan="2">必 / 選修</th>
+                <th rowspan="2">授課時數</th>
+                <th colspan="3">人數</th>
+                <th rowspan="2">校區</th>
+                <th rowspan="2">授課教師</th>
+                <th rowspan="2">上課時間</th>
+                <th rowspan="2">備註</th>
+            </tr>
+            <tr>
+                <th>上限</th>
+                <th>下限</th>
+                <th>已選</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for class in classes %}
                 <tr>
-                    <th rowspan="2" scope="col">選擇</th>
-                    <th rowspan="2" scope="col">班級</th>
-                    <th rowspan="2" scope="col">選課代號</th>
-                    <th rowspan="2" scope="col">類別</th>
-                    <th rowspan="2" scope="col">科目</th>
-                    <th rowspan="2" scope="col">學分數</th>
-                    <th rowspan="2" scope="col">開課別</th>
-                    <th rowspan="2" scope="col">必 / 選修</th>
-                    <th rowspan="2" scope="col">授課時數</th>
-                    <th colspan="3" scope="col">人數</th>
-                    <th rowspan="2" scope="col">校區</th>
-                    <th rowspan="2" scope="col">授課教師</th>
-                    <th rowspan="2" scope="col">上課時間</th>
-                    <th rowspan="2" scope="col">備註</th>
-                </tr>
-                <tr>
-                    <th scope="col">上限</th>
-                    <th scope="col">下限</th>
-                    <th scope="col">已選</th>
-                </tr>
-                </thead>
-                <tbody>
-                {% for class in classes %}
-                    <tr>
-                        <th scope="row"></th>
-                        <td>{{ class["class_name"] }}</td>
-                        <td>
-                            <form name="form" method="post" target="new"
-                                  action="http://shcourse.utaipei.edu.tw/utaipei/ag_pro/ag064_print.jsp">
-                                <input type="hidden" name="arg01" value="{{ year }}">
-                                <input type="hidden" name="arg02" value="{{ semester }}">
-                                <input type="hidden" name="arg04" value="{{ class["syllabus"] }}">
-                                <a href="#" class="link-primary"
-                                   onclick="this.parentNode.submit();">{{ class["course_code"] }}</a>
+                    <th></th>
+                    <td>{{ class["class_name"] }}</td>
+                    <td>
+                        <form name="form" method="post" target="new"
+                              action="http://shcourse.utaipei.edu.tw/utaipei/ag_pro/ag064_print.jsp">
+                            <input type="hidden" name="arg01" value="{{ year }}">
+                            <input type="hidden" name="arg02" value="{{ semester }}">
+                            <input type="hidden" name="arg04" value="{{ class["syllabus"] }}">
+                            <a href="#" class="link-primary"
+                               onclick="this.parentNode.submit();">{{ class["course_code"] }}</a>
+                        </form>
+                    </td>
+                    <td>{{ class["category"] }}</td>
+                    <td>
+                        <div data-bs-toggle="tooltip" data-bs-placement="top"
+                             title="{{ class["english_name"] }}">
+                            {{ class["chinese_name"] }}
+                        </div>
+                    </td>
+                    <td>{{ class["credit"] }}</td>
+                    <td>{{ class["full_half"] }}</td>
+                    <td>{{ class["req_select"] }}</td>
+                    <td>{{ class["lecturing_hours"] }}</td>
+                    <td>{{ class["enrolled_max"] }}</td>
+                    <td>{{ class["enrolled_min"] }}</td>
+                    <td>{{ class["enrolled_current"] }}</td>
+                    <td>{{ class["campus"] }}</td>
+                    <td>{{ class["teacher"] }}</td>
+                    <td>{{ class["day"] }}
+                        <br>
+                        {% for time in class["time"] %}
+                            {{ time }}{{ ", " if not loop.last else "" }}
+                        {% endfor %}
+                    </td>
+                    <td>
+                        {% if class["notes"] != ' ' %}
+                            <div class="text-center"
+                                 data-bs-toggle="tooltip"
+                                 data-bs-placement="top" title="{{ class["notes"] }}">
+                                <div class="bi bi-exclamation-circle"></div>
+                            </div>
+                        {% endif %}
+                        {% if class["limit"] %}
+                            <form name="notes" method="post" target="new"
+                                  action="http://shcourse.utaipei.edu.tw/utaipei/ag_pro/ag203_limit.jsp">
+                                <input type="hidden" name="ls_year" value="{{ year }}">
+                                <input type="hidden" name="ls_sms" value="{{ semester }}">
+                                <input type="hidden" name="data" value="{{ class["course_code"] }}">
+                                <a href="#" class="link" onclick="this.parentNode.submit();">
+                                    限修
+                                </a>
                             </form>
-                        </td>
-                        <td>{{ class["category"] }}</td>
-                        <td>
-                            <p class="text-center" data-bs-toggle="tooltip"
-                               data-bs-placement="top" title="{{ class["english_name"] }}">
-                                {{ class["chinese_name"] }}
-                            </p>
-                        </td>
-                        <td>{{ class["credit"] }}</td>
-                        <td>{{ class["full_half"] }}</td>
-                        <td>{{ class["req_select"] }}</td>
-                        <td>{{ class["lecturing_hours"] }}</td>
-                        <td>{{ class["enrolled_max"] }}</td>
-                        <td>{{ class["enrolled_min"] }}</td>
-                        <td>{{ class["enrolled_current"] }}</td>
-                        <td>{{ class["campus"] }}</td>
-                        <td>{{ class["teacher"] }}</td>
-                        <td>{{ class["day"] }}
-                            <br>
-                            {% for time in class["time"] %}
-                                {{ time }}{{ ", " if not loop.last else "" }}
-                            {% endfor %}
-                        </td>
-                        <td>
-                            {% if class["notes"] != ' ' %}
-                                <div class="text-center" data-bs-toggle="tooltip"
-                                     data-bs-placement="top" title="{{ class["notes"] }}">
-                                    <div class="bi bi-exclamation-circle"></div>
-                                </div>
-                            {% endif %}
-                            {% if class["limit"] %}
-                                <form name="notes" method="post" target="new"
-                                      action="http://shcourse.utaipei.edu.tw/utaipei/ag_pro/ag203_limit.jsp">
-                                    <input type="hidden" name="ls_year" value="{{ year }}">
-                                    <input type="hidden" name="ls_sms" value="{{ semester }}">
-                                    <input type="hidden" name="data" value="{{ class["course_code"] }}">
-                                    <a href="#" class="link" onclick="this.parentNode.submit();">
-                                        限修
-                                    </a>
-                                </form>
-                            {% endif %}
-                        </td>
-                    </tr>
-                {% endfor %}
-                </tbody>
-                <tfoot>
-                <tr>
-                    <td class="table" colspan="17">總共列出了 {{ total }} 堂課</td>
+                        {% endif %}
+                    </td>
                 </tr>
-                </tfoot>
-            </table>
-        </div>
+            {% endfor %}
+            </tbody>
+            <tfoot>
+            <tr>
+                <td class="table" colspan="17">總共列出了 {{ total }} 堂課</td>
+            </tr>
+            </tfoot>
+        </table>
     </div>
 </div>
 {% include 'footerjs.html' %}
