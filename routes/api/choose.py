@@ -51,8 +51,8 @@ def choose() -> Response:
     if class_type not in options["class_type"]:
         return abort(404)
 
-    course_name: str = data["teacher"]
-    teacher: str = request.args.get('teacher', default="", type=str)
+    course_name: str = data["subject"]
+    teacher: str = data["teacher"]
 
     response: dict[str, Any] = {
         "search_word": {
