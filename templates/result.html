@@ -82,11 +82,25 @@
                         <td>{{ class["enrolled_min"] }}</td>
                         <td>{{ class["enrolled_current"] }}</td>
                         <td>{{ class["campus"] }}</td>
-                        <td>{{ class["teacher"] }}</td>
-                        <td>{{ class["day"] }}
-                            <br>
-                            {% for time in class["time"] %}
-                                {{ time }}{{ ", " if not loop.last else "" }}
+                        <td>
+                            {% for teacher in class["teachers"] %}
+                                {{ teacher }}
+                                {% if not loop.last %}
+                                    <br>
+                                {% endif %}
+                            {% endfor %}
+                        </td>
+                        <td>
+                            {% for c in class["times"] %}
+                                {{ c["day"] }}
+                                <span>
+                                    {% for time in c["time"] %}
+                                        {{ time }}{{ ", " if not loop.last else "" }}
+                                    {% endfor %}
+                                    {% if not loop.last %}
+                                        <br>
+                                    {% endif %}
+                                </span>
                             {% endfor %}
                         </td>
                         <td>
