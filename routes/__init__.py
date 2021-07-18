@@ -16,7 +16,7 @@ def result():
         data: dict = session.get("data")
         if data.get("error"):
             flash(data.get("error"))
-            return redirect(url_for('search'))
+            return redirect(url_for('routes.search'))
         total = data["total"]
         classes = data["classes"]
         return render_template('result.html', total=total, classes=classes, year=get_year(), semester=get_semester())

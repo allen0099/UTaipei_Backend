@@ -102,7 +102,7 @@ def choose() -> Response:
 
         response["error"] = reg[0]
         session["data"] = response
-        return redirect(url_for('result'))
+        return redirect(url_for('routes.result'))
 
     head: str = root.xpath('//html//body//table//font[@color]')[0].text
     reg = re.findall(r'(?<=\(共)\d+', head)
