@@ -1,6 +1,5 @@
 import json
 import re
-
 from typing import Any
 from urllib.parse import unquote
 
@@ -9,8 +8,8 @@ from flask import Response, abort, redirect, request, session, url_for
 from lxml import etree
 from lxml.etree import _Element
 
+from models import Collection
 from routes.api import api
-from classes import Collection
 
 
 @api.route("/choose", methods=['POST'])

@@ -1,5 +1,6 @@
 import re
 from collections import Iterator
+from re import Match
 
 from lxml.etree import _Element
 
@@ -31,15 +32,36 @@ class Collection:
         self.campus = get_text()
 
         tmp = get_text()
-        reg = re.findall(r'(?P<teacher>.*)\((?P<day>(?<=\().(?=\)))\)(?P<time>\d{1,3}-\d{1,3})', tmp)
 
-        if reg:
-            self.teacher = reg[0][0]
-            self.day = reg[0][1]
-            _split = reg[0][2].split('-', maxsplit=1)
-            self.time = [_ for _ in range(int(_split[0]), int(_split[1]) + 1)]
+        if '/' in tmp:
+            tmp = tmp.split('/')
+            self.teachers = [tmp[0]]
+            self.times = [{
+                "day": tmp[1],
+                "time": [""],
+            }]
         else:
-            self.teacher = tmp
+            reg: list[Match] = [_ for _ in re.finditer(
+                r'(?P<teacher>.*?) ?\(?(?P<day>(?<=\().(?=\))|時間未定)\)?(?P<time>\d{1,3}(?:-\d{1,3})?)?(?:\((?P<location>.*?)\))?',
+                tmp)]
+
+            if reg:
+                self.teachers = [
+                    _.group('teacher') for _ in reg if _.group('teacher') != ''
+                ]
+
+                self.times = [{
+                    "day": _.group('day'),
+                    "time": list(
+                        range(*map(lambda t: int(t[1]) + t[0], enumerate(_.group('time').split('-', maxsplit=1))))) \
+                        if _.group('time') is not None and '-' in _.group('time') else [] \
+                        if _.group('time') is None else [_.group('time')],
+                } for _ in reg]
+
+                # remove duplicate dict from https://stackoverflow.com/a/9428041
+                self.times = [i for n, i in enumerate(self.times) if i not in self.times[n + 1:]]
+            else:
+                self.teacher = tmp
 
         self.mixed_class = get_text()
         self.syllabus = re.findall(r"(?<=go_next\(').+(?='\))", next(cols).attrib['onclick'])[0]

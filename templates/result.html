@@ -26,7 +26,7 @@
 <div class="container min-vh-100">
     <div><p id="title" class="text-center fs-2" style="color: var(--bs-purple)">課程查詢結果</p></div>
     <div class="table-responsive">
-        <table class="table table-sm table-bordered text-nowrap text-center align-middle">
+        <table class="table table-sm table-bordered table-hover text-nowrap text-center align-middle">
             <thead class="table-info">
             <tr>
                 <th rowspan="2">選擇</th>
@@ -67,8 +67,8 @@
                     </td>
                     <td>{{ class["category"] }}</td>
                     <td>
-                        <div data-bs-toggle="tooltip" data-bs-placement="top"
-                             title="{{ class["english_name"] }}">
+                        <div data-bs-toggle="tooltip"
+                             data-bs-placement="top" title="{{ class["english_name"] }}">
                             {{ class["chinese_name"] }}
                         </div>
                     </td>
@@ -80,17 +80,30 @@
                     <td>{{ class["enrolled_min"] }}</td>
                     <td>{{ class["enrolled_current"] }}</td>
                     <td>{{ class["campus"] }}</td>
-                    <td>{{ class["teacher"] }}</td>
-                    <td>{{ class["day"] }}
-                        <br>
-                        {% for time in class["time"] %}
-                            {{ time }}{{ ", " if not loop.last else "" }}
+                    <td>
+                        {% for teacher in class["teachers"] %}
+                            {{ teacher }}
+                            {% if not loop.last %}
+                                <br>
+                            {% endif %}
+                        {% endfor %}
+                    </td>
+                    <td>
+                        {% for c in class["times"] %}
+                            {{ c["day"] }}
+                            <span>
+                                {% for time in c["time"] %}
+                                    {{ time }}{{ ", " if not loop.last else "" }}
+                                {% endfor %}
+                                {% if not loop.last %}
+                                    <br>
+                                {% endif %}
+                            </span>
                         {% endfor %}
                     </td>
                     <td>
                         {% if class["notes"] != ' ' %}
-                            <div class="text-center"
-                                 data-bs-toggle="tooltip"
+                            <div class="text-center" data-bs-toggle="tooltip"
                                  data-bs-placement="top" title="{{ class["notes"] }}">
                                 <div class="bi bi-exclamation-circle"></div>
                             </div>
