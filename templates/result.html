@@ -57,7 +57,11 @@
             <tbody>
             {% for class in classes %}
                 <tr>
-                    <th scope="col"></th>
+                    <th scope="col" id="{{ class.id }}">
+                        <button type="button" class="btn btn-secondary" onclick="add_query(this.parentNode)">
+                            <i class="bi bi-plus-lg"></i>
+                        </button>
+                    </th>
                     <td>{{ class.class_name }}</td>
                     <td>
                         <form name="form" method="post" target="new"
@@ -145,6 +149,30 @@
             }
         });
     })()
+</script>
+<script>
+    function add_query(node) {
+        let class_id = node.id;
+        $.post("{{ url_for("api.add_query") }}", {"id": class_id})
+            .done(() => {
+                let op = $("#" + node.id);
+                op.empty();
+                op.append('<button type="button" class="btn btn-secondary" onclick="remove_query(this.parentNode)"><i class="bi bi-dash-lg"></i></button>');
+            })
+            .fail(() => {
+                console.log(class_id + " not found");
+            });
+    }
+
+    function remove_query(node) {
+        let class_id = node.id;
+        $.post("{{ url_for("api.remove_query") }}", {"id": class_id})
+            .done(() => {
+                let op = $("#" + node.id);
+                op.empty();
+                op.append('<button type="button" class="btn btn-secondary" onclick="add_query(this.parentNode)"><i class="bi bi-plus-lg"></i></button>');
+            });
+    }
 </script>
 </body>
 </html>

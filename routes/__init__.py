@@ -20,6 +20,13 @@ def result():
     return redirect(url_for('routes.search'))
 
 
+@web_routes.route('/query_result')
+def query_result():
+    # if session.get("query"):
+    return render_template('query_result.html', year=get_year(), semester=get_semester())
+    # return redirect(url_for('routes.search'))
+
+
 @web_routes.route('/my_table')
 def my_table():
     return render_template('schedule.html', year=get_year(), semester=get_semester())
