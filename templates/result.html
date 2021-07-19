@@ -37,15 +37,15 @@
             <tr>
                 <th scope="col">選擇</th>
                 <th scope="col" style="width: 20px">
-                    <span class="invisible">./</span>
+                    <span class="invisible">..</span>
                     班級
-                    <span class="invisible">./</span>
+                    <span class="invisible">..</span>
                 </th>
                 <th scope="col">選課<br>代號</th>
                 <th scope="col" style="width: 80px">
-                    <span class="invisible">.　</span>
+                    <span class="invisible">..　</span>
                     類別
-                    <span class="invisible">.　</span>
+                    <span class="invisible">..　</span>
                 </th>
                 <th scope="col">
                     <span class="invisible">　　　</span>
@@ -67,7 +67,7 @@
             {% for class in classes %}
                 <tr>
                     <th scope="col" id="{{ class.id }}">
-                        <button type="button" class="btn btn-secondary" onclick="add_query(this.parentNode)">
+                        <button type="button" class="btn btn-outline-secondary btn-sm" onclick="add_query(this.parentNode)">
                             <i class="bi bi-plus-lg"></i>
                         </button>
                     </th>

@@ -24,30 +24,39 @@
 <body>
 {% include 'navbar.html' %}
 <div class="container min-vh-100">
-    <div class="">
-        <p id="title" class="text-center position-relative" style="color: var(--bs-purple)">
-            <span class="fs-2">
-                已選結果
-            </span>
-            <span id="update_time" class="badge bg-secondary position-absolute bottom-0 end-0">
-            </span>
-        </p>
+    <div id="title" class="fs-2 lh-lg text-center position-relative" style="color: var(--bs-purple)">
+        已選結果
     </div>
     <div class="table-responsive">
         <table class="table table-sm table-bordered table-hover text-nowrap text-center align-middle">
-            <caption class="visually-hidden">Choose class table</caption>
+            <caption class="caption-top sticky-top" style="padding: 1rem;">
+                <span id="update_time" class="badge bg-secondary position-absolute top-50 end-0 translate-middle-y">
+                </span>
+            </caption>
             <thead class="table-info">
             <tr>
                 <th scope="col">選擇</th>
-                <th scope="col">班級</th>
+                <th scope="col" style="width: 20px">
+                    <span class="invisible">..</span>
+                    班級
+                    <span class="invisible">..</span>
+                </th>
                 <th scope="col">選課<br>代號</th>
-                <th scope="col">類別</th>
-                <th scope="col">科目</th>
-                <th scope="col">學分數</th>
+                <th scope="col" style="width: 80px">
+                    <span class="invisible">..　</span>
+                    類別
+                    <span class="invisible">..　</span>
+                </th>
+                <th scope="col">
+                    <span class="invisible">　　　</span>
+                    科目
+                    <span class="invisible">　　　</span>
+                </th>
+                <th scope="col">學分</th>
                 <th scope="col">學年<br>學期</th>
                 <th scope="col">必修<br>選修</th>
                 <th scope="col">授課<br>時數</th>
-                <th colspan="3" scope="col">人數<br>上限 / 下限 / 已選</th>
+                <th scope="col" colspan="3">人數<br>上限 / 下限 / 已選</th>
                 <th scope="col">校區</th>
                 <th scope="col">授課教師</th>
                 <th scope="col">上課時間</th>
@@ -126,11 +135,11 @@
 
                     appnodes = `<tr>
                         <th scope="col" id="${datum.id}">
-                            <button type="button" class="btn btn-secondary" onclick="remove_query(this.parentNode)">
+                            <button type="button" class="btn btn-outline-secondary btn-sm" onclick="remove_query(this.parentNode)">
                                 <i class="bi bi-dash-lg"></i>
                             </button>
                         </th>
-                        <td>${datum.class_name}</td>
+                        <td class="text-wrap">${datum.class_name}</td>
                         <td>
                             <form name="form" method="post" target="new"
                                   action="http://shcourse.utaipei.edu.tw/utaipei/ag_pro/ag064_print.jsp">
@@ -140,8 +149,8 @@
                                 <a href="#" class="link-primary" onclick="this.parentNode.submit();">${datum.id}</a>
                             </form>
                         </td>
-                        <td>${datum.category}</td>
-                        <td>
+                        <td class="text-wrap">${datum.category}</td>
+                        <td class="text-wrap">
                             <div data-bs-toggle="tooltip" data-bs-placement="top" title="${datum.english_name}">
                                 ${datum.chinese_name}
                             </div>
