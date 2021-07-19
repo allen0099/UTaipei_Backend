@@ -22,7 +22,7 @@ def result():
 
 @web_routes.route('/query_result')
 def query_result():
-    return render_template('query_result.html')
+    return render_template('query_result.html', year=get_year(), semester=get_semester())
 
 
 @web_routes.route('/my_table')

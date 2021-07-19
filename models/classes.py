@@ -1,10 +1,11 @@
 from app import db
 from .collection import Collection
+from .mixin import Serializer
 from .teachers import Teachers
 from .timetable import Timetable
 
 
-class Classes(db.Model):
+class Classes(db.Model, Serializer):
     __tablename__: str = "classes"
 
     id = db.Column(db.String, primary_key=True)
@@ -36,13 +37,18 @@ class Classes(db.Model):
 
     teachers: list[Teachers] = db.relationship('Teachers', backref='class_', lazy='subquery',
                                                cascade="all, delete-orphan")
-    _times: list[Timetable] = db.relationship('Timetable', backref='class_', lazy='subquery',
-                                              cascade="all, delete-orphan")
+    times: list[Timetable] = db.relationship('Timetable', backref='class_', lazy='subquery',
+                                             cascade="all, delete-orphan")
+
+    def serialize(self):
+        d = Serializer.serialize(self)
+        d["times"] = self.tuple_times
+        return d
 
     @property
-    def times(self) -> list:
+    def tuple_times(self) -> list:
         results = []
-        for _ in self._times:
+        for _ in self.times:
             if _.weekday in [k[0] for k in results]:
                 for result in results:
                     if _.weekday == result[0]:

@@ -27,7 +27,7 @@
     <div class="">
         <p id="title" class="text-center position-relative" style="color: var(--bs-purple)">
             <span class="fs-2">
-                已選課程查詢結果
+                已選結果
             </span>
             <span id="update_time" class="badge bg-secondary position-absolute bottom-0 end-0">
             </span>
@@ -54,7 +54,7 @@
                 <th scope="col">備註</th>
             </tr>
             </thead>
-            <tbody>
+            <tbody id="data">
             <tr>
                 <td colspan="17" class="col-md-auto position-relative text-center">
                     <div class="spinner-border" role="status">
@@ -65,7 +65,7 @@
             </tbody>
             <tfoot>
             <tr>
-                <td class="table" colspan="17">總共列出了 {{ total }} 堂課</td>
+                <td id="class_count" class="table" colspan="17">總共列出了 堂課</td>
             </tr>
             </tfoot>
         </table>
@@ -77,7 +77,98 @@
     (() => {
         $.getJSON("{{ url_for("api.get_query") }}")
             .done((data) => {
-                console.log(data);
+                let node = $("#data");
+                node.empty();
+
+                for (const datum of data) {
+                    let s_te = ``, s_ti = ``, s_no = ``;
+
+                    for (const [i, teacher] of datum.teachers.entries()) {
+                        s_te += teacher.name;
+                        if (i !== datum.teachers.length - 1) {
+                            s_te += "<br>";
+                        }
+                    }
+
+                    for (const [i, time] of datum.times.entries()) {
+                        s_ti += time[0];
+                        s_ti += ' <span>';
+                        for (const [j, value] of time[1].entries()) {
+                            s_ti += value;
+                            if (j !== time[1].length - 1) {
+                                s_ti += ', ';
+                            }
+                        }
+                        if (i !== datum.times.length - 1) {
+                            s_ti += '<br>';
+                        }
+                        s_ti += '</span>';
+                    }
+
+                    if (datum.notes !== ' ') {
+                        s_no += `<div class="text-center" data-bs-toggle="tooltip"
+                                 data-bs-placement="top" title="${datum.notes}">
+                                <div class="bi bi-exclamation-circle"></div>
+                            </div>`
+                    }
+
+                    if (datum.limit) {
+                        s_no += `<form name="notes" method="post" target="new"
+                                  action="http://shcourse.utaipei.edu.tw/utaipei/ag_pro/ag203_limit.jsp">
+                                <input type="hidden" name="ls_year" value="{{ year }}">
+                                <input type="hidden" name="ls_sms" value="{{ semester }}">
+                                <input type="hidden" name="data" value="${datum.id}">
+                                <a href="#" class="link" onclick="this.parentNode.submit();">
+                                    限修
+                                </a>
+                            </form>`
+                    }
+
+                    appnodes = `<tr>
+                        <th scope="col" id="${datum.id}">
+                            <button type="button" class="btn btn-secondary" onclick="remove_query(this.parentNode)">
+                                <i class="bi bi-dash-lg"></i>
+                            </button>
+                        </th>
+                        <td>${datum.class_name}</td>
+                        <td>
+                            <form name="form" method="post" target="new"
+                                  action="http://shcourse.utaipei.edu.tw/utaipei/ag_pro/ag064_print.jsp">
+                                <input type="hidden" name="arg01" value="{{ year }}">
+                                <input type="hidden" name="arg02" value="{{ semester }}">
+                                <input type="hidden" name="arg04" value="${datum.syllabus}">
+                                <a href="#" class="link-primary" onclick="this.parentNode.submit();">${datum.id}</a>
+                            </form>
+                        </td>
+                        <td>${datum.category}</td>
+                        <td>
+                            <div data-bs-toggle="tooltip" data-bs-placement="top" title="${datum.english_name}">
+                                ${datum.chinese_name}
+                            </div>
+                        </td>
+                        <td>${datum.points}</td>
+                        <td>${datum.full_half}</td>
+                        <td>${datum.req_select}</td>
+                        <td>${datum.hours}</td>
+                        <td>${datum.enrolled_max}</td>
+                        <td>${datum.enrolled_min}</td>
+                        <td>${datum.enrolled_current}</td>
+                        <td>${datum.campus}</td>
+                        <td>${s_te}</td>
+                        <td>${s_ti}</td>
+                        <td>${s_no}</td>
+                    </tr>`
+                    node.append(appnodes);
+                }
+
+                counts = $("#class_count");
+                counts.text("總共列出了 " + data.length + " 堂課");
+
+                // reload bootstrap
+                var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+                var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+                    return new bootstrap.Tooltip(tooltipTriggerEl)
+                })
             })
             .fail(() => {
 

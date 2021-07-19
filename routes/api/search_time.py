@@ -17,8 +17,8 @@ def search_time() -> Response:
         return abort(404)
 
     _q = Classes.query \
-        .filter(Classes._times.any(Timetable.weekday == __TimeMapper__[weekday])) \
-        .filter(Classes._times.any(Timetable.time == class_time)) \
+        .filter(Classes.times.any(Timetable.weekday == __TimeMapper__[weekday])) \
+        .filter(Classes.times.any(Timetable.time == class_time)) \
         .all()
 
     session["data"] = _q
