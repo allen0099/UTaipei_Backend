@@ -6,3 +6,4 @@ from .choose import choose
 from .search_time import search_time
 from .settings import settings
 from .unit import get_unit
+from .update_time import update_time

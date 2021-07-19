@@ -24,7 +24,15 @@
 <body>
 {% include 'navbar.html' %}
 <div class="container min-vh-100">
-    <div><p id="title" class="text-center fs-2" style="color: var(--bs-purple)">課程查詢結果</p></div>
+    <div class="">
+        <p id="title" class="text-center position-relative" style="color: var(--bs-purple)">
+            <span class="fs-2">
+                課程查詢結果
+            </span>
+            <span id="update_time" class="badge bg-secondary position-absolute bottom-0 end-0">
+            </span>
+        </p>
+    </div>
     <div class="table-responsive">
         <table class="table table-sm table-bordered table-hover text-nowrap text-center align-middle">
             <caption class="visually-hidden">Choose class table</caption>
@@ -128,5 +136,15 @@
     </div>
 </div>
 {% include 'footerjs.html' %}
+<script>
+    (() => {
+        $.getJSON("{{ url_for("api.update_time") }}", function (data) {
+            if (data.key !== "error") {
+                let time = new Date(data.time + "+0000")
+                $("#update_time").text("最後更新時間: " + time);
+            }
+        });
+    })()
+</script>
 </body>
 </html>
