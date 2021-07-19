@@ -1,7 +1,7 @@
-import os
 import re
 from datetime import datetime
 
+import pytz
 import requests
 from lxml import etree
 from lxml.etree import _Element
@@ -9,12 +9,12 @@ from requests import Response
 
 from app import db, scheduler
 from functions import get_semester, get_units, get_values, get_year
-from models import Classes, Collection, Teachers, Timetable
+from models import Classes, Collection, Config, Teachers, Timetable
 
 
-@scheduler.task('cron', id='sync_tables', hour=os.getenv("SCHEDULE_TIME"), minute='0')
+@scheduler.task('cron', id='sync_tables', hour='4', minute='0', timezone=pytz.timezone("Asia/Taipei"))
 def sync_tables():
-    print(datetime.now(), "Crontab starting")
+    print(datetime.utcnow(), "Crontab starting")
     with scheduler.app.app_context():
         db.drop_all()
         db.create_all()
@@ -51,7 +51,10 @@ def sync_tables():
         for _ in ["Bc", "BN", "BO", "BP", "BQ"]:
             add_local(year, semester, "%", "XS", "XS00", 0, _)
 
-    print(datetime.now(), "Crontab end")
+        db.session.add(Config("UPDATE_TIME", datetime.utcnow().isoformat()))
+        db.session.commit()
+
+    print(datetime.utcnow(), "Crontab end")
 
 
 def add_local(year, semester, degree, department, unit, cls_year, hid_crk="%"):
