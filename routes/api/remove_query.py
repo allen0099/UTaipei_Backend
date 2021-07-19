@@ -10,6 +10,6 @@ def remove_query() -> Response:
     class_id: str = data['id']
 
     if session.get("query"):
-        session["query"] = session.get("query").remove(class_id)
+        session.get("query").remove(class_id)
 
     return make_response('', 204)

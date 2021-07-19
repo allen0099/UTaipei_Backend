@@ -13,7 +13,7 @@ def add_query() -> Response:
     _q: Classes = Classes.query.filter_by(id=class_id).first_or_404()
 
     if session.get("query"):
-        session["query"] = session.get("query").append(_q.id)
+        session.get("query").append(_q.id)
 
     else:
         session["query"] = [_q.id]
