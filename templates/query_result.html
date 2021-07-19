@@ -72,17 +72,17 @@
     </div>
 </div>
 {% include 'footerjs.html' %}
+{% include 'query_js.html' %}
 <script>
     (() => {
-        $.getJSON("{{ url_for("api.update_time") }}", function (data) {
-            if (data.key !== "error") {
-                let time = new Date(data.time + "+0000")
-                $("#update_time").text("最後更新時間: " + time);
-            }
-        });
-    })()
-</script>
-<script>
+        $.getJSON("{{ url_for("api.get_query") }}")
+            .done((data) => {
+                console.log(data);
+            })
+            .fail(() => {
+
+            });
+    })();
 </script>
 </body>
 </html>
