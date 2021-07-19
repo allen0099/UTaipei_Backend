@@ -15,35 +15,41 @@ from models import Classes, Collection, Teachers, Timetable
 @scheduler.task('cron', id='sync_tables', hour=os.getenv("SCHEDULE_TIME"), minute='0')
 def sync_tables():
     print(datetime.now(), "Crontab starting")
-    db.drop_all()
-    db.create_all()
+    with scheduler.app.app_context():
+        db.drop_all()
+        db.create_all()
 
-    year: int = get_year()
-    semester: int = get_semester()
+        print("Database setup finished")
 
-    _v = get_values(year, semester)
-    for degree in _v["degree"]:
-        if degree in ["%"]:
-            continue
+        year: int = get_year()
+        semester: int = get_semester()
 
-        for department in _v["department"]:
-            # drop 進修推廣處
-            if department in ["", "51", "%"]:
+        _v = get_values(year, semester)
+
+        print("Starting to get the data")
+
+        for degree in _v["degree"]:
+            if degree in ["%"]:
                 continue
 
-            for unit in get_units(department):
-                unit = unit.popitem()
-                unit = unit[1]
-
+            for department in _v["department"]:
                 # drop 進修推廣處
-                if unit in ["", "2600", "%"]:
+                if department in ["", "51", "%"]:
                     continue
 
-                for cls_year in list(range(7)):
-                    add_local(year, semester, degree, department, unit, cls_year)
+                for unit in get_units(department):
+                    unit = unit.popitem()
+                    unit = unit[1]
 
-    for _ in ["Bc", "BN", "BO", "BP", "BQ"]:
-        add_local(year, semester, "%", "XS", "XS00", 0, _)
+                    # drop 進修推廣處
+                    if unit in ["", "2600", "%"]:
+                        continue
+
+                    for cls_year in list(range(7)):
+                        add_local(year, semester, degree, department, unit, cls_year)
+
+        for _ in ["Bc", "BN", "BO", "BP", "BQ"]:
+            add_local(year, semester, "%", "XS", "XS00", 0, _)
 
     print(datetime.now(), "Crontab end")
 
