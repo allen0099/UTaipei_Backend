@@ -7,16 +7,16 @@
         <div class="collapse navbar-collapse justify-content-md-start" id="navbarsExample08">
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="navbar-brand" href="/">台北市立大學 - 選課幫手</a>
+                    <a class="navbar-brand" href="{{ url_for('routes.search') }}">台北市立大學 - 選課幫手</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/">查詢</a>
+                    <a class="nav-link" href="{{ url_for('routes.search') }}">查詢</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/result">查詢結果</a>
+                    <a class="nav-link" href="{{ url_for('routes.result') }}">查詢結果</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/my_table">排課</a>
+                    <a class="nav-link" href="{{ url_for('routes.my_table') }}">排課</a>
                 </li>
             </ul>
         </div>

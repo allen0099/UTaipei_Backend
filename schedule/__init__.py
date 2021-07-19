@@ -1,18 +1,19 @@
 import re
+from datetime import datetime
 
 import requests
 from lxml import etree
 from lxml.etree import _Element
 from requests import Response
 
-from app import db
+from app import db, scheduler
 from functions import get_semester, get_units, get_values, get_year
 from models import Classes, Collection, Teachers, Timetable
 
 
-# @scheduler.task('cron', id='sync_tables', hour='*/12')
-
+@scheduler.task('cron', id='sync_tables', hour='4', minute='0')
 def sync_tables():
+    print(datetime.now(), "Crontab starting")
     db.drop_all()
     db.create_all()
 
@@ -42,6 +43,8 @@ def sync_tables():
 
     for _ in ["Bc", "BN", "BO", "BP", "BQ"]:
         add_local(year, semester, "%", "XS", "XS00", 0, _)
+
+    print(datetime.now(), "Crontab end")
 
 
 def add_local(year, semester, degree, department, unit, cls_year, hid_crk="%"):
@@ -102,6 +105,7 @@ def add_local(year, semester, degree, department, unit, cls_year, hid_crk="%"):
 
             teachers = []
             for teacher in _.teachers:
+                # TODO: remove prefix
                 t = Teachers(c.id, teacher)
                 teachers.append(t)
 
