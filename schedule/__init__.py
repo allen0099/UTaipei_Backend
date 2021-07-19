@@ -1,3 +1,4 @@
+import os
 import re
 from datetime import datetime
 
@@ -11,7 +12,7 @@ from functions import get_semester, get_units, get_values, get_year
 from models import Classes, Collection, Teachers, Timetable
 
 
-@scheduler.task('cron', id='sync_tables', hour='4', minute='0')
+@scheduler.task('cron', id='sync_tables', hour=os.getenv("SCHEDULE_TIME"), minute='0')
 def sync_tables():
     print(datetime.now(), "Crontab starting")
     db.drop_all()
