@@ -1,4 +1,5 @@
 import re
+import time
 from datetime import datetime
 
 import pytz
@@ -15,6 +16,11 @@ from models import Classes, Collection, Config, Teachers, Timetable
 @scheduler.task('cron', id='sync_tables', hour='4', minute='0', timezone=pytz.timezone("Asia/Taipei"))
 def sync_tables():
     print(datetime.utcnow(), "Crontab starting")
+
+    is_ready: bool = is_alive()
+    while not is_ready:
+        is_ready = is_alive()
+
     with scheduler.app.app_context():
         db.drop_all()
         db.create_all()
@@ -55,6 +61,25 @@ def sync_tables():
         db.session.commit()
 
     print(datetime.utcnow(), "Crontab end")
+
+
+def is_alive() -> bool:
+    url: str = "http://shcourse.utaipei.edu.tw/utaipei/ag_pro/ag203.jsp"
+
+    headers: dict[str, str] = {
+        "Host": "shcourse.utaipei.edu.tw",
+        "Connection": "keep-alive",
+        "Content-Type": "application/x-www-form-urlencoded",
+    }
+    params: dict[str, str] = {}
+
+    time.sleep(30)
+
+    try:
+        requests.post(url, data=params, headers=headers)
+    except requests.exceptions.ConnectionError:
+        return False
+    return True
 
 
 def add_local(year, semester, degree, department, unit, cls_year, hid_crk="%"):
