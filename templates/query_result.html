@@ -35,32 +35,20 @@
             </caption>
             <thead class="table-info">
             <tr>
-                <th scope="col">選擇</th>
-                <th scope="col" style="width: 20px">
-                    <span class="invisible">..</span>
-                    班級
-                    <span class="invisible">..</span>
-                </th>
-                <th scope="col">選課<br>代號</th>
-                <th scope="col" style="width: 80px">
-                    <span class="invisible">..　</span>
-                    類別
-                    <span class="invisible">..　</span>
-                </th>
-                <th scope="col">
-                    <span class="invisible">　　　</span>
-                    科目
-                    <span class="invisible">　　　</span>
-                </th>
-                <th scope="col">學分</th>
-                <th scope="col">學年<br>學期</th>
-                <th scope="col">必修<br>選修</th>
-                <th scope="col">授課<br>時數</th>
-                <th scope="col" colspan="3">人數<br>上限 / 下限 / 已選</th>
-                <th scope="col">校區</th>
-                <th scope="col">授課教師</th>
-                <th scope="col">上課時間</th>
-                <th scope="col">備註</th>
+                <th scope="col" style="width: 4%">選擇</th>
+                <th scope="col" style="width: 5%; min-width: 5em; max-width: 5em">班級</th>
+                <th scope="col" style="width: 3%">選課<br>代號</th>
+                <th scope="col" style="width: 10%; min-width: 7em">類別</th>
+                <th scope="col" style="width: 20%; min-width: 10em">科目</th>
+                <th scope="col" style="width: 3%">學分</th>
+                <th scope="col" style="width: 3%">學年<br>學期</th>
+                <th scope="col" style="width: 3%">必修<br>選修</th>
+                <th scope="col" style="width: 3%">授課<br>時數</th>
+                <th scope="col" style="width: 5%" colspan="3">人數<br>上限 / 下限 / 已選</th>
+                <th scope="col" style="width: 4%">校區</th>
+                <th scope="col" style="width: 5%">授課教師</th>
+                <th scope="col" style="width: 6%">上課時間</th>
+                <th scope="col" style="width: 4%">備註</th>
             </tr>
             </thead>
             <tbody id="data">
@@ -133,7 +121,7 @@
                             </form>`
                     }
 
-                    appnodes = `<tr>
+                    appnodes = `<tr style="height: 3em">
                         <th scope="col" id="${datum.id}">
                             <button type="button" class="btn btn-outline-secondary btn-sm" onclick="remove_query(this.parentNode)">
                                 <i class="bi bi-dash-lg"></i>
