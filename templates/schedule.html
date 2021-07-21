@@ -19,6 +19,42 @@
         #warning li:last-child {
             padding-bottom: 0;
         }
+
+        .table-morning {
+            --bs-table-bg: #fffff2;
+            --bs-table-striped-bg: #fafaed;
+            --bs-table-striped-color: #000;
+            --bs-table-active-bg: #bfbfbf;
+            --bs-table-active-color: #000;
+            --bs-table-hover-bg: #f5f5e9;
+            --bs-table-hover-color: #000;
+            color: #000;
+            border-color: #bfbfbf;
+        }
+
+        .table-afternoon {
+            --bs-table-bg: #f7fff7;
+            --bs-table-striped-bg: #f2faf2;
+            --bs-table-striped-color: #000;
+            --bs-table-active-bg: #bfbfbf;
+            --bs-table-active-color: #000;
+            --bs-table-hover-bg: #edf5ed;
+            --bs-table-hover-color: #000;
+            color: #000;
+            border-color: #bfbfbf;
+        }
+
+        .table-night, .table-night > th, .table-night > td {
+            --bs-table-bg: #f2ffff;
+            --bs-table-striped-bg: #edfafa;
+            --bs-table-striped-color: #000;
+            --bs-table-active-bg: #bfbfbf;
+            --bs-table-active-color: #000;
+            --bs-table-hover-bg: #e9f5f5;
+            --bs-table-hover-color: #000;
+            color: #000;
+            border-color: #bfbfbf;
+        }
     </style>
 </head>
 <body>
@@ -29,33 +65,33 @@
             台北市立大學 {{ year }} 學年度第 {{ semester }} 學期 - 模擬排課表
         </p>
     </div>
-    <table class="table table-hover table-sm text-center table-bordered">
+    <table class="table table-hover table-sm text-center table-bordered align-middle" style="border-color: #bfbfbf">
         <caption class="visually-hidden">Choose class table</caption>
         <thead class="table-danger text-center">
         <tr>
-            <th scope="col" style="width: 5%">節次</th>
+            <th scope="col" style="width: 2%"><em class="bi bi-list"></em></th>
             <th scope="col" style="width: 15%">星期一</th>
             <th scope="col" style="width: 15%">星期二</th>
             <th scope="col" style="width: 15%">星期三</th>
             <th scope="col" style="width: 15%">星期四</th>
             <th scope="col" style="width: 15%">星期五</th>
             <th scope="col" style="width: 15%">星期六</th>
-            <th scope="col" style="width: 5%">星期日</th>
+            <th scope="col" style="width: 8%">星期日</th>
         </tr>
         </thead>
 
         <tbody>
         {% for foo in range(14) %}
-            <tr>
+            <tr class="{% if loop.index <= 4 %}table-morning
+                {% elif loop.index == 5 %}{% elif loop.index <= 10 %}table-afternoon{% else %}table-night{% endif %}">
                 <th scope="row">
-                    {% set _hour_starttime = loop.index + 7 %}
-                    {% set _hour_endtime = _hour_starttime + 1 %}
-                    {{ '%02d' % loop.index }} / {{ '%02d' % _hour_starttime }}:10 - {{ '%02d' % _hour_endtime }}:00
+                    {{ '%02d' % loop.index }}
                 </th>
                 {% set table_loop = loop %}
                 {% for s in d_map %}
-                    <td>
+                    <td data-bs-toggle="modal" data-bs-target="#modal{{ d_map[s] }}{{ table_loop.index }}">
                         {% for time in times if time.time == table_loop.index|string and time.weekday == s %}
+                            <em class="bi bi-trash" onclick="remove_query('{{ time.class_id }}')"></em>
                             {{ time.class_id }}
                             <br>
                             {{ time.class_.chinese_name }}
@@ -63,6 +99,32 @@
                                 <br class="_br">
                             {% endif %}
                         {% else %}
+                            <form id="form{{ d_map[s] }}{{ table_loop.index }}" method="POST"
+                                  action="{{ url_for("api.search_time") }}">
+                                <input type="hidden" name="weekday" value="{{ d_map[s] }}">
+                                <input type="hidden" name="time" value="{{ table_loop.index }}">
+                                <div class="modal fade" id="modal{{ d_map[s] }}{{ table_loop.index }}"
+                                     tabindex="-1">
+                                    <div class="modal-dialog modal-dialog-centered">
+                                        <div class="modal-content">
+                                            <div class="modal-body">
+                                                你確定要搜尋星期 {{ s }} 第 {{ table_loop.index }} 節的課程嗎？
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary"
+                                                        data-bs-dismiss="modal">
+                                                    不是
+                                                </button>
+                                                <button type="button" class="btn btn-primary"
+                                                        onclick="$('#form{{ d_map[s] }}{{ table_loop.index }}')
+                                                                .submit()">
+                                                    是的
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
                         {% endfor %}
                     </td>
                 {% endfor %}
@@ -86,6 +148,21 @@
     (() => {
         $("._br").parent().addClass("text-danger");
     })();
+
+    (() => {
+        let o = $('td[data-bs-toggle="modal"]:not(:has(form))');
+        for (const t of o) {
+            $(t).removeAttr('data-bs-toggle');
+            $(t).removeAttr('data-bs-target');
+        }
+    })();
+
+    function remove_query(cls_id) {
+        $.post("{{ url_for("api.remove_query") }}", {"id": cls_id})
+            .done(() => {
+                location.reload();
+            });
+    }
 </script>
 </body>
 </html>
