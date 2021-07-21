@@ -39,10 +39,13 @@ def my_table():
             classes.append(_c)
 
     __mapper__: dict = {
-        "一": 1, "二": 2, "三": 3, "四": 4, "五": 5, "六": 6, "日": 7,
+        "一": 1, "二": 2, "三": 3, "四": 4, "五": 5, "六": 6, "日": 7, "時間未定": 8, " ": 9
     }
     # https://stackoverflow.com/a/17109098
-    times.sort(key=lambda x: (int(x.time), __mapper__[x.weekday]))
+    times.sort(key=lambda x: (int(x.time if x.time != '' else 999), __mapper__[x.weekday]))
+
+    del __mapper__[" "]
+    del __mapper__["時間未定"]
 
     return render_template('schedule.html', times=times, classes=classes,
                            year=get_year(), semester=get_semester(), d_map=__mapper__,

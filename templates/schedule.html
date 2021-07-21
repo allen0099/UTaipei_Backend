@@ -70,13 +70,13 @@
         <thead class="table-danger text-center">
         <tr>
             <th scope="col" style="width: 2%"><em class="bi bi-list"></em></th>
-            <th scope="col" style="width: 15%">星期一</th>
-            <th scope="col" style="width: 15%">星期二</th>
-            <th scope="col" style="width: 15%">星期三</th>
-            <th scope="col" style="width: 15%">星期四</th>
-            <th scope="col" style="width: 15%">星期五</th>
-            <th scope="col" style="width: 15%">星期六</th>
-            <th scope="col" style="width: 8%">星期日</th>
+            <th scope="col" style="width: 16%">星期一</th>
+            <th scope="col" style="width: 16%">星期二</th>
+            <th scope="col" style="width: 16%">星期三</th>
+            <th scope="col" style="width: 16%">星期四</th>
+            <th scope="col" style="width: 16%">星期五</th>
+            <th scope="col" style="width: 11%">星期六</th>
+            <th scope="col" style="width: 7%">星期日</th>
         </tr>
         </thead>
 
@@ -142,6 +142,30 @@
         </tr>
         </tfoot>
     </table>
+    <div class="card mb-3">
+        <div class="row g-0">
+            <div class="col-md-4">
+                <div class="card-header">
+                    <div class="card-title text-center">
+                        <h3>時間未定</h3>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-8">
+                <div class="card-body">
+                    <ul class="list-group list-group-flush">
+                        {% for time in times if time.weekday in ["時間未定", " "] %}
+                            <li class="list-group-item">
+                                <em class="bi bi-trash" onclick="remove_query('{{ time.class_id }}')"></em>
+                                {{ time.class_.id }} / {{ time.class_.chinese_name }} / {{ time.class_.category }} /
+                                學分數: {{ time.class_.points }}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 {% include 'footerjs.html' %}
 <script>
