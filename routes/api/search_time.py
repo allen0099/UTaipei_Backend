@@ -8,11 +8,11 @@ from routes.api import api
 def search_time() -> Response:
     data: dict = request.form
 
-    weekday: str = data['weekday']
+    weekday: str = data.get('weekday')
     if weekday not in ['1', '2', '3', '4', '5', '6', '7']:
         return abort(404)
 
-    class_time: str = data['time']
+    class_time: str = data.get('time')
     if class_time not in ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14']:
         return abort(404)
 

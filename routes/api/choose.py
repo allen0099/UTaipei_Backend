@@ -10,28 +10,28 @@ def choose() -> Response:
     data: dict = request.form
 
     options = get_values(get_year(), get_semester())
-    degree: str = data['degree']
+    degree: str = data.get('degree')
     if degree not in options["degree"]:
         return abort(404)
 
-    department: str = data["department"]
+    department: str = data.get("department")
     if department not in options["department"]:
         return abort(404)
 
-    unit: str = data["unit"]
+    unit: str = data.get("unit")
     if unit not in options["unit"]:
         return abort(404)
 
-    class_year: str = data["year"]
+    class_year: str = data.get("year")
     if class_year not in options["class_year"]:
         return abort(404)
 
-    class_type: str = data["type"]
+    class_type: str = data.get("type")
     if class_type not in [_[0] for _ in options["crk"]]:
         return abort(404)
 
-    course_name: str = data["subject"]
-    teacher: str = data["teacher"]
+    course_name: str = data.get("subject")
+    teacher: str = data.get("teacher")
 
     Classes.query.filter_by()
 
@@ -48,10 +48,10 @@ def choose() -> Response:
     if class_type != "%":
         _q = _q.filter_by(_class_type=class_type)
 
-    if course_name != "":
+    if course_name != "" or course_name is not None:
         _q = _q.filter(Classes.chinese_name.like(f"%{course_name}%"))
 
-    if teacher != "":
+    if teacher != "" or teacher is not None:
         _q = _q.join(Classes.teachers).filter(Teachers.name.like(f"%{teacher}%"))
 
     _q = _q.all()
