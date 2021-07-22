@@ -6,9 +6,14 @@ from models import Classes, Timetable
 web_routes: Blueprint = Blueprint("routes", __name__)
 
 
-@web_routes.route('/')
+@web_routes.route("/")
 def search():
-    return render_template('search.html')
+    return render_template("search.html")
+
+
+@web_routes.route("/sitemap.xml")
+def sitemap_redirect():
+    return redirect(url_for("static", filename="sitemap.xml"))
 
 
 @web_routes.route('/result')

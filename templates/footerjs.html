@@ -4,7 +4,7 @@
             <div class="row justify-content-md-center">
                 <div class="col-md-auto position-relative text-center">
                     <a class="fs-2 stretched-link link-dark" href="https://github.com/allen0099/UTaipei_SelectHelper">
-                        <i class="bi bi-github"></i>
+                        <em class="bi bi-github"></em>
                     </a>
                     <h4>GitHub</h4>
                 </div>
@@ -26,9 +26,7 @@
         crossorigin="anonymous"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/js-cookie@rc/dist/js.cookie.min.js"></script>
-<div class="modal fade" id="alert_box" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false"
-     aria-labelledby="exampleModalLabel"
-     aria-hidden="true">
+<div class="modal fade" id="alert_box" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
@@ -53,8 +51,8 @@
 </div>
 <script>
     // from bootstrap document
-    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
-    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+    let tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+    let tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
         return new bootstrap.Tooltip(tooltipTriggerEl)
     })
 
@@ -78,7 +76,7 @@
         console.log(settings);
 
         if (!settings["read"]) {
-            var myModal = new bootstrap.Modal($('#alert_box'));
+            let myModal = new bootstrap.Modal($('#alert_box'));
             myModal.show();
         }
     })();

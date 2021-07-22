@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    {% include "favicon.html" %}
+
+    <title>Oops! 出錯了</title>
+    {% include "metatags.html" %}
+    {% include "font.html" %}
+    <style>
+        /* Show it is fixed to the top */
+        body {
+            padding-top: 4.5rem;
+        }
+
+        #warning li {
+            padding-bottom: 0.5rem;
+        }
+
+        #warning li:last-child {
+            padding-bottom: 0;
+        }
+
+        ._min_view100 {
+            min-height: calc(100vh - 4.5rem);
+        }
+    </style>
+</head>
+<body>
+{% include 'navbar.html' %}
+<div class="container _min_view100">
+    <h1 class="text-center">
+        {{ error.code }}
+    </h1>
+    <div class="row justify-content-md-center">
+        {{ error.description }}
+    </div>
+</div>
+{% include 'footerjs.html' %}
+</body>
+</html>

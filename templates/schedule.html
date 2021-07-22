@@ -22,6 +22,10 @@
             padding-bottom: 0;
         }
 
+        ._min_view100 {
+            min-height: calc(100vh - 4.5rem);
+        }
+
         .table-morning {
             --bs-table-bg: #fffff2;
             --bs-table-striped-bg: #fafaed;
@@ -61,7 +65,7 @@
 </head>
 <body>
 {% include 'navbar.html' %}
-<div class="container min-vh-100">
+<div class="container _min_view100">
     <div>
         <p id="title" class="text-center fs-2 lh-lg" style="color: var(--bs-purple)">
             台北市立大學 {{ year }} 學年度第 {{ semester }} 學期 - 模擬排課表

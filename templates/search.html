@@ -21,11 +21,15 @@
         #warning li:last-child {
             padding-bottom: 0;
         }
+
+        ._min_view100 {
+            min-height: calc(100vh - 4.5rem);
+        }
     </style>
 </head>
 <body>
 {% include 'navbar.html' %}
-<div class="container min-vh-100">
+<div class="container _min_view100">
     <div>
         <div><p id="title" class="text-center fs-2" style="color: var(--bs-purple)">科目與教師開課班級查詢</p></div>
         <form class="offset-lg-2 col-lg-8 bg-light p-5 rounded" action="{{ url_for('api.choose') }}" method="post">
