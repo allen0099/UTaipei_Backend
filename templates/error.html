@@ -29,6 +29,10 @@
 </head>
 <body>
 {% include 'navbar.html' %}
+<div class="text-center">
+    <img alt="我是網站裡最可愛的可愛喵喵，是一隻可愛橘白喵喔" class="border border-3 rounded-circle border-danger"
+         src="{{ url_for('static', filename="favicons/CatMeow.png") }}">
+</div>
 <div class="container _min_view100">
     <h1 class="text-center">
         {{ error.code }}
