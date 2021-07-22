@@ -15,7 +15,7 @@
             .done(() => {
                 let op = $("#" + node.id);
                 op.empty();
-                op.append('<button type="button" class="btn btn-outline-secondary btn-sm" onclick="remove_query(this.parentNode)"><i class="bi bi-dash-lg"></i></button>');
+                op.append('<button type="button" class="btn btn-outline-secondary btn-sm rounded-circle" onclick="remove_query(this.parentNode)"><i class="bi bi-dash-lg"></i></button>');
             })
             .fail(() => {
                 console.log(class_id + " not found");
@@ -28,7 +28,7 @@
             .done(() => {
                 let op = $("#" + node.id);
                 op.empty();
-                op.append('<button type="button" class="btn btn-outline-secondary btn-sm" onclick="add_query(this.parentNode)"><i class="bi bi-plus-lg"></i></button>');
+                op.append('<button type="button" class="btn btn-outline-secondary btn-sm rounded-circle" onclick="add_query(this.parentNode)"><i class="bi bi-plus-lg"></i></button>');
             });
     }
 </script>

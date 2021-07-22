@@ -61,9 +61,9 @@
             {% for class in classes %}
                 <tr style="height: 3em">
                     <th scope="col" id="{{ class.id }}">
-                        <button type="button" class="btn btn-outline-secondary btn-sm"
+                        <button type="button" class="btn btn-outline-secondary btn-sm rounded-circle"
                                 onclick="add_query(this.parentNode)">
-                            <i class="bi bi-plus-lg"></i>
+                            <em class="bi bi-plus-lg"></em>
                         </button>
                     </th>
                     <td class="text-wrap">{{ class.class_name }}</td>
