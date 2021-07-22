@@ -4,10 +4,11 @@ import sys
 from pathlib import Path
 
 from dotenv import load_dotenv
-from flask import Flask
+from flask import Flask, render_template
 from flask_apscheduler import APScheduler
 from flask_session import Session
 from flask_sqlalchemy import SQLAlchemy
+from werkzeug.exceptions import BadRequest, Forbidden, InternalServerError, MethodNotAllowed, NotAcceptable, NotFound
 
 load_dotenv(dotenv_path=str(Path(sys.argv[0]).parent / ".env"), verbose=True)
 
@@ -40,6 +41,32 @@ def create_app() -> Flask:
         app.register_blueprint(api)
         from routes import web_routes
         app.register_blueprint(web_routes)
+
+        _error_page: str = "error.html"
+
+        @app.errorhandler(400)
+        def bad_request(error: BadRequest):
+            return render_template(_error_page, error=error), 400
+
+        @app.errorhandler(403)
+        def forbidden(error: Forbidden):
+            return render_template(_error_page, error=error), 403
+
+        @app.errorhandler(404)
+        def not_found(error: NotFound):
+            return render_template(_error_page, error=error), 404
+
+        @app.errorhandler(405)
+        def method_not_allowed(error: MethodNotAllowed):
+            return render_template(_error_page, error=error), 405
+
+        @app.errorhandler(406)
+        def not_acceptable(error: NotAcceptable):
+            return render_template(_error_page, error=error), 406
+
+        @app.errorhandler(500)
+        def internal_server_error(error: InternalServerError):
+            return render_template(_error_page, error=error), 500
 
         return app
 
