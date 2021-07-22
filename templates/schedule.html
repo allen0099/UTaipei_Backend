@@ -71,6 +71,11 @@
             台北市立大學 {{ year }} 學年度第 {{ semester }} 學期 - 模擬排課表
         </p>
     </div>
+    <div class="form-check form-switch user-select-none">
+        <input class="form-check-input" type="checkbox" id="trashCanCheck" autocomplete="off" checked
+               onclick="trashcan()">
+        <label class="form-check-label" for="trashCanCheck">刪除課程按鈕</label>
+    </div>
     <table class="table table-sm table-hover table-bordered text-center align-middle" style="border-color: #bfbfbf">
         <caption class="visually-hidden">Choose class table</caption>
         <thead class="table-danger text-center">
@@ -192,6 +197,18 @@
             .done(() => {
                 location.reload();
             });
+    }
+
+    function trashcan() {
+        t = $(".bi-trash");
+        for (const e of t) {
+            j = $(e);
+            if (j.hasClass("visually-hidden")) {
+                j.removeClass("visually-hidden");
+            } else {
+                j.addClass("visually-hidden");
+            }
+        }
     }
 </script>
 </body>
