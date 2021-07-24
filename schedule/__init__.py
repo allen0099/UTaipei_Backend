@@ -76,7 +76,9 @@ def is_alive() -> bool:
     time.sleep(30)
 
     try:
-        requests.post(url, data=params, headers=headers)
+        r = requests.post(url, data=params, headers=headers)
+        if r.status_code != 200:
+            return False
     except requests.exceptions.ConnectionError:
         return False
     return True
