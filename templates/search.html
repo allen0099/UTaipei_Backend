@@ -212,6 +212,7 @@
     </div>
 </div>
 {% include 'footerjs.html' %}
+{% include 'check_welcome.html' %}
 <script>
     function getShowData(obj) {
         $.getJSON('api/get_unit?dept=' + obj.value, function (data) {

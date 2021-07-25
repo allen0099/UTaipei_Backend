@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    {% include "favicon.html" %}
+
+    <title>QR code</title>
+    {% include "metatags.html" %}
+    {% include "font.html" %}
+    <style>
+        /* Show it is fixed to the top */
+        body {
+            padding-top: 4.5rem;
+        }
+
+        #warning li {
+            padding-bottom: 0.5rem;
+        }
+
+        #warning li:last-child {
+            padding-bottom: 0;
+        }
+
+        ._min_view100 {
+            min-height: calc(100vh - 4.5rem);
+        }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.0/core.min.js"
+            integrity="sha512-t8vdA86yKUE154D1VlNn78JbDkjv3HxdK/0MJDMBUXUjshuzRgET0ERp/0MAgYS+8YD9YmFwnz6+FWLz1gRZaw=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.0/cipher-core.min.js"
+            integrity="sha512-8tSa8JGzVhm1quXtz7BpvEm3wFvwtHkXmYkaEmaU1t7WghNxPdZLjGchi2pARJF2zhwQygyozEegjFROONKsBw=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.0/mode-ecb.js"
+            integrity="sha512-WtzufohOvUxwH1sbRaSx9qvW/AQ8RpPZj6lLmDQXhkHLLoQTk26zm/LYBROI28wRtMvSt8l0On6oBtpvgXr97A=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.0/aes.min.js"
+            integrity="sha512-4b1zfeOuJCy8B/suCMGNcEkMcQkQ+/jQ6HlJIaYVGvg2ZydPvdp7GY0CuRVbNpSxNVFqwTAmls2ftKSkDI9vtA=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+</head>
+<body>
+{% include 'navbar.html' %}
+<div class="container _min_view100">
+    <div class="d-flex justify-content-center">
+        <canvas id="qrcode"></canvas>
+    </div>
+    <div class="row justify-content-md-center">
+        <div class="col-md-auto text-center">
+            <p class="user-select-none">當前學號：<span id="show_id"></span></p>
+            <button type="button" class="btn btn-warning" onclick="reset_uid()">
+                RESET
+            </button>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="alert_box" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control" id="stu_id" placeholder="UXXXXXXXX">
+                    <label for="stu_id" class="form-label user-select-none">學號</label>
+                    <div class="form-text user-select-none">學號格式 UXXXXXXXX</div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="confirm_alert();" data-bs-dismiss="modal">
+                    OK
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+{% include 'footerjs.html' %}
+{% include 'qr_generate.html' %}
+</body>
+</html>

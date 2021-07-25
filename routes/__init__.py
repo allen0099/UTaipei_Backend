@@ -16,6 +16,11 @@ def sitemap_redirect():
     return redirect(url_for("static", filename="sitemap.xml"))
 
 
+@web_routes.route("/qr_code")
+def qr_code():
+    return render_template("QR.html")
+
+
 @web_routes.route('/result')
 def result():
     if session.get("data"):
