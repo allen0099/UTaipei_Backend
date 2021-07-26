@@ -9,17 +9,17 @@
 
 <url>
   <loc>https://utc.allen0099.tw/</loc>
-  <lastmod>2021-07-22T02:42:06+00:00</lastmod>
+  <lastmod>2021-07-26T01:40:00+00:00</lastmod>
   <priority>1.00</priority>
 </url>
 <url>
-  <loc>https://utc.allen0099.tw/query_result</loc>
-  <lastmod>2021-07-22T02:42:06+00:00</lastmod>
+  <loc>https://utc.allen0099.tw/my_table</loc>
+  <lastmod>2021-07-26T01:40:00+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://utc.allen0099.tw/my_table</loc>
-  <lastmod>2021-07-22T02:42:06+00:00</lastmod>
+  <loc>https://utc.allen0099.tw/qr_code</loc>
+  <lastmod>2021-07-26T01:40:00+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 
