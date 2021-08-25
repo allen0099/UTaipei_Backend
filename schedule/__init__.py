@@ -13,7 +13,6 @@ from functions import get_semester, get_units, get_values, get_year
 from models import Classes, Collection, Config, Teachers, Timetable
 
 
-@scheduler.task('cron', id='sync_tables', hour='4', minute='0', timezone=pytz.timezone("Asia/Taipei"))
 def sync_tables():
     print(datetime.utcnow(), "Crontab starting")
 
@@ -131,6 +130,8 @@ def add_local(year, semester, degree, department, unit, cls_year, hid_crk="%"):
 
     if total > 0:
         for row in class_table:
+            if len(row) != 15:
+                continue
             _ = Collection(iter(row))
             c = Classes(_, degree, department, unit, cls_year)
 

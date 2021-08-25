@@ -62,7 +62,11 @@ class Collection:
                 # remove duplicate dict from https://stackoverflow.com/a/9428041
                 self.times = [i for n, i in enumerate(self.times) if i not in self.times[n + 1:]]
             else:
-                self.teacher = tmp
+                self.teachers = tmp
+                self.times = [{
+                    "day": "",
+                    "time": [""],
+                }]
 
         self.mixed_class = get_text()
         self.syllabus = re.findall(r"(?<=go_next\(').+(?='\))", next(cols).attrib['onclick'])[0]
