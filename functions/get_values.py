@@ -7,7 +7,7 @@ from . import get_crk
 
 
 def get_values(year, semester) -> dict[str, list[str]]:
-    url: str = "http://shcourse.utaipei.edu.tw/utaipei/ag_pro/ag203.jsp"
+    url: str = "https://shcourse.utaipei.edu.tw/utaipei/ag_pro/ag203.jsp"
 
     headers: dict[str, str] = {
         "Host": "shcourse.utaipei.edu.tw",

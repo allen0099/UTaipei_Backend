@@ -8,7 +8,7 @@ from .get_year import get_year
 
 
 def get_units(dept) -> list[dict[str, str]]:
-    url: str = "http://shcourse.utaipei.edu.tw/utaipei/ag_pro/ag203.jsp"
+    url: str = "https://shcourse.utaipei.edu.tw/utaipei/ag_pro/ag203.jsp"
 
     headers: dict[str, str] = {
         "Host": "shcourse.utaipei.edu.tw",

@@ -5,7 +5,7 @@ from werkzeug.exceptions import abort
 
 
 def get_crk(year, semester):
-    url: str = "http://shcourse.utaipei.edu.tw/utaipei/ag_pro/ag203_crk.jsp"
+    url: str = "https://shcourse.utaipei.edu.tw/utaipei/ag_pro/ag203_crk.jsp"
     headers: dict[str, str] = {
         "Host": "shcourse.utaipei.edu.tw",
         "Connection": "keep-alive",

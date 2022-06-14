@@ -15,7 +15,7 @@ from models import Classes, Collection, Config, Teachers, Timetable
 
 @scheduler.task('cron', id='sync_tables', hour='4', minute='0', timezone=pytz.timezone("Asia/Taipei"))
 def sync_tables():
-    print(datetime.utcnow(), "Crontab starting")
+    print(datetime.utcnow(), "Crontab starting downloading", get_year(), get_semester())
 
     is_ready: bool = is_alive()
     while not is_ready:
@@ -64,7 +64,7 @@ def sync_tables():
 
 
 def is_alive() -> bool:
-    url: str = "http://shcourse.utaipei.edu.tw/utaipei/ag_pro/ag203.jsp"
+    url: str = "https://shcourse.utaipei.edu.tw/utaipei/ag_pro/ag203.jsp"
 
     headers: dict[str, str] = {
         "Host": "shcourse.utaipei.edu.tw",
@@ -85,7 +85,7 @@ def is_alive() -> bool:
 
 
 def add_local(year, semester, degree, department, unit, cls_year, hid_crk="%"):
-    url: str = "http://shcourse.utaipei.edu.tw/utaipei/ag_pro/ag203_1.jsp"
+    url: str = "https://shcourse.utaipei.edu.tw/utaipei/ag_pro/ag203_1.jsp"
     headers: dict[str, str] = {
         "Host": "shcourse.utaipei.edu.tw",
         "Connection": "keep-alive",
