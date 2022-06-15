@@ -71,7 +71,7 @@
                     <td class="text-wrap">{{ class.class_name }}</td>
                     <td>
                         <form name="form" method="post" target="new"
-                              action="http://shcourse.utaipei.edu.tw/utaipei/ag_pro/ag064_print.jsp">
+                              action="https://shcourse.utaipei.edu.tw/utaipei/ag_pro/ag064_print.jsp">
                             <input type="hidden" name="arg01" value="{{ year }}">
                             <input type="hidden" name="arg02" value="{{ semester }}">
                             <input type="hidden" name="arg04" value="{{ class.syllabus }}">
@@ -124,7 +124,7 @@
                         {% endif %}
                         {% if class.limit %}
                             <form name="notes" method="post" target="new"
-                                  action="http://shcourse.utaipei.edu.tw/utaipei/ag_pro/ag203_limit.jsp">
+                                  action="https://shcourse.utaipei.edu.tw/utaipei/ag_pro/ag203_limit.jsp">
                                 <input type="hidden" name="ls_year" value="{{ year }}">
                                 <input type="hidden" name="ls_sms" value="{{ semester }}">
                                 <input type="hidden" name="data" value="{{ class.id }}">
