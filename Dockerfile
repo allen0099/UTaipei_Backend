@@ -39,4 +39,7 @@ ARG gid=1000
 RUN groupadd -g ${gid} ${group}
 RUN useradd -u ${uid} -g ${group} -s /bin/sh -m ${user}
 
+# Change to non-root user
+USER ${user}
+
 COPY . .
