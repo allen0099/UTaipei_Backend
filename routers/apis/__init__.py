@@ -11,7 +11,7 @@ from utils.functions import get_courses
 
 logger: logging.Logger = logging.getLogger(__name__)
 
-router = APIRouter(tags=["API Calls"])
+router = APIRouter(prefix="/api", tags=["API Calls"])
 
 
 async def _year_semester(
