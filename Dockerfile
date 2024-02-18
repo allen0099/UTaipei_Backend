@@ -8,6 +8,9 @@ FROM base AS library
 
 RUN python -m venv /opt/venv
 
+# Upgrade pip and install dependences
+RUN pip install --no-cache-dir --upgrade pip setuptools wheel
+
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
