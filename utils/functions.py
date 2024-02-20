@@ -146,7 +146,7 @@ def jsonify_course(course: t.Iterator[_Element]) -> dict[str, t.Any]:
     }
     data["campus"] = pure_text(next(course).text)
 
-    data["teachers"], data["times"] = split_teacher_time(pure_text(next(course).text))
+    data["teachers"] = v2(next(course).text)
 
     data["mixed"] = pure_text(next(course).text)
     data["syllabus"] = re.findall(r"(?<=go_next\(').+(?='\))", next(course).attrib["onclick"])[0]
@@ -163,49 +163,78 @@ def jsonify_course(course: t.Iterator[_Element]) -> dict[str, t.Any]:
     return data
 
 
-def split_teacher_time(text: str) -> tuple[list[str], list[dict[str, t.Union[str, list[str]]]]]:
-    if "/" in text:
-        tmp = text.split("/")
-        teachers = [tmp[0]]
-        times = [
-            {
-                "day": tmp[1],
-                "time": [""],
-            }
-        ]
-    else:
-        reg: list[Match] = [
-            _
-            for _ in re.finditer(
-                r"(?P<teacher>.*?) ?\(?(?P<day>(?<=\().(?=\))|時間未定)\)?(?P<time>\d{1,3}(?:-\d{1,3})?)?(?:\((?P<location>.*?)\))?",
-                text,
-            )
-        ]
+def v2(text: str) -> list[dict[str, t.Any]]:
+    data: list[dict[str, t.Any]] = [new_split_teacher_time_location(pure_text(_)) for _ in text.splitlines() if _ != ""]
 
-        if reg:
-            teachers = [pure_text(_.group("teacher")) for _ in reg if _.group("teacher") != ""]
+    logger.info("Data length: %s", len(data))
 
-            times = [
-                {
-                    "day": _.group("day"),
-                    "time": (
-                        list(range(*map(lambda t: int(t[1]) + t[0], enumerate(_.group("time").split("-", maxsplit=1)))))
-                        if _.group("time") is not None and "-" in _.group("time")
-                        else [] if _.group("time") is None else [_.group("time")]
-                    ),
-                }
-                for _ in reg
-            ]
+    if len(data[-1]["times"]) >= 1:
+        last_location = data[-1]["times"][-1]["location"]
 
-            # remove duplicate dict from https://stackoverflow.com/a/9428041
-            times = [i for n, i in enumerate(times) if i not in times[n + 1 :]]
+        for locations in data:
+            for time in locations["times"]:
+                if time["location"] == "":
+                    time["location"] = last_location
+
+    return data
+
+
+def calc_time(time: str | None) -> list[int]:
+    time_list: list[int] = []
+
+    if time is not None:
+        split = time.split("-", maxsplit=1)
+
+        if len(split) == 1:
+            time_list.append(int(split[0]))
+
         else:
-            teachers = [text]
-            times = [
-                {
-                    "day": "",
-                    "time": [""],
-                }
-            ]
+            time_list = list(range(*map(lambda t: int(t[1]) + t[0], enumerate(split))))
 
-    return teachers, times
+    return time_list
+
+
+def find_location(text: str | None = None) -> str:
+    if text is None:
+        return ""
+
+    test: re.Match | None = re.search(r"(?<=[(\[]).*(?=[)\]])", text)
+    if test:
+        return test.group(0)
+    return ""
+
+
+def new_split_teacher_time_location(text: str) -> dict[str, t.Any]:
+    teacher_obj = dict(
+        teacher="",
+        single_week=False,
+        times=[],
+    )
+
+    if text.startswith("(單週)"):
+        teacher_obj["single_week"] = True
+        text = text.replace("(單週)", "", 1)
+
+    if test := re.search(r"^.+?(?=[\[(])", text):  # NOSONAR, this is a valid regex
+        teacher_name: str = test.group(0)
+        teacher_obj["teacher"] = teacher_name
+
+        text = text.replace(teacher_name, "", 1)
+
+    if reg := [
+        _
+        for _ in re.finditer(
+            r"(?P<day>\([一二三四五六日]\)|時間未定)(?P<time>\d{1,2}(?:-\d{1,2})?)?(?P<location>[\[(][^])]{2,}[])])?",
+            text,
+        )
+    ]:
+        for _ in reg:
+            teacher_obj["times"].append(
+                {
+                    "day": _.group("day").split("(", 1)[1].rsplit(")", 1)[0],
+                    "time": calc_time(_.group("time")),
+                    "location": find_location(_.group("location")),
+                }
+            )
+
+    return teacher_obj
