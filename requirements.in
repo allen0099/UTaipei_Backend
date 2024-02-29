@@ -1,0 +1,10 @@
+click
+fastapi
+httpx
+lxml
+python-dotenv
+SQLAlchemy
+sqlmodel
+starlette
+typing_extensions
+uvicorn

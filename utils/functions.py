@@ -1,7 +1,6 @@
 import logging
 import re
 import typing as t
-from re import Match
 
 from httpx import Response
 from lxml import etree
