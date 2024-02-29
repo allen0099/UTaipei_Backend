@@ -7,6 +7,7 @@ from starlette.middleware import Middleware
 
 import config
 import routers
+from database import setup_database
 from exceptions import UTCAPIException
 from exceptions.handlers import handle_all_exception, handle_backend_api_exception
 from middlewares import LogRequestMiddleware
@@ -41,6 +42,10 @@ def create_app() -> FastAPI:
             docs_url="",
             redoc_url="",
         )
+
+    @app.on_event("startup")
+    def on_startup():
+        setup_database()
 
     app.add_exception_handler(Exception, handle_all_exception)
     app.add_exception_handler(UTCAPIException, handle_backend_api_exception)
