@@ -5,11 +5,13 @@ import typing as t
 from http import HTTPStatus
 
 from starlette.background import BackgroundTask
-from starlette.middleware.base import BaseHTTPMiddleware, RequestResponseEndpoint
+from starlette.middleware.base import BaseHTTPMiddleware
+from starlette.middleware.base import RequestResponseEndpoint
 from starlette.requests import Request
 from starlette.responses import Response
 from starlette.types import ASGIApp
-from uvicorn.protocols.utils import get_client_addr, get_path_with_query_string
+from uvicorn.protocols.utils import get_client_addr
+from uvicorn.protocols.utils import get_path_with_query_string
 
 import config
 from responses import error_response

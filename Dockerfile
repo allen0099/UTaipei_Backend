@@ -6,13 +6,11 @@ ENV PATH="/opt/venv/bin:$PATH"
 
 FROM base AS library
 
-RUN python -m venv /opt/venv
-
-# Upgrade pip and install dependences
-RUN pip install --no-cache-dir --upgrade pip setuptools wheel
+RUN pip install uv
+RUN uv venv /opt/venv && source /opt/venv/bin/activate
 
 COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+RUN uv pip install --no-cache -r requirements.txt
 
 FROM base AS production
 
@@ -38,6 +36,9 @@ ARG uid=1000
 ARG gid=1000
 RUN groupadd -g ${gid} ${group}
 RUN useradd -u ${uid} -g ${group} -s /bin/sh -m ${user}
+
+RUN mkdir /app/logs && \
+    chown -R app:app /app/logs
 
 # Change to non-root user
 USER ${user}

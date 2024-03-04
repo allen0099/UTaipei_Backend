@@ -2,10 +2,11 @@ import logging
 import typing as t
 
 from sqlalchemy import Engine
+from sqlmodel import Session
+from sqlmodel import SQLModel
 
-from sqlmodel import SQLModel, Session
-
-from .common import _get_engine, _get_sql_url
+from .common import _get_engine
+from .common import _get_sql_url
 from .models import *
 
 logger: logging.Logger = logging.getLogger(__name__)
@@ -20,4 +21,4 @@ def get_session() -> t.Generator[Session, None, None]:
 
 def setup_database() -> None:
     logger.info("Creating database...")
-    SQLModel.metadata.create_all(engine)
+    # SQLModel.metadata.create_all(engine)

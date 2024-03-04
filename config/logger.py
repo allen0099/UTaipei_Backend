@@ -1,17 +1,17 @@
 import logging.config
-import os
 from logging import Logger
 from pathlib import Path
 from typing import Any
 
-from .common import DEBUG, BASE_FOLDER
+from .common import BASE_FOLDER
+from .common import DEBUG
 
 logger: Logger = logging.getLogger(__name__)
 
 LOG_FOLDER: Path = BASE_FOLDER / "logs"
 
-if not os.path.exists(LOG_FOLDER):
-    os.makedirs(LOG_FOLDER)
+if not Path.exists(LOG_FOLDER):
+    Path.mkdir(LOG_FOLDER, parents=True)
 
 LOGFILES: dict[str, Path] = {
     "console": LOG_FOLDER / "console.log",
@@ -121,7 +121,7 @@ if len(root_logger.handlers) == 0:
 
     # For logfiles, input new line to indicate the start of the log
     for logfile in LOGFILES.values():
-        with open(logfile, "a") as f:
+        with Path.open(logfile, "a") as f:
             f.write("====== NEW APPLICATION START ======\n")
 
     logger.info("Using default logging config.")

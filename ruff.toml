@@ -1,0 +1,34 @@
+# Allow lines to be as long as 120.
+line-length = 120
+# Always generate Python 3.11-compatible code.
+target-version = "py311"
+
+[lint]
+# On top of the default `select` (`E`, `F`), enable flake8-bugbear (`B`) and flake8-quotes (`Q`).
+extend-select = [
+    "A", # flake8-builtins
+    "B", # flake8-bugbear
+    "C", # flake8-comprehensions
+    "E", # pycodestyle errors
+    "F", # pyflakes
+    "I", # isort
+    # "UP", # pyupgrade
+    "W", # pycodestyle warnings
+    "ARG", # flake8-unused-arguments
+    "LOG", # flake8-logging
+    "DTZ", # flake8-datetimez
+    "PTH", # flake8-use-pathlib
+    "TCH", # flake8-type-checking
+    "T20", # flake8-print
+    "G", # flake8-logging-format
+    #    "BLE", # flake8-blind-except
+    #    "SIM", # flake8-simplify
+    #    "S", # flake8-bandit
+]
+
+[lint.per-file-ignores]
+"__init__.py" = ["F401", "F403"]
+
+[lint.isort]
+# Forces all from imports to appear on their own line.
+force-single-line = true

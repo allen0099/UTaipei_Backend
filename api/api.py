@@ -1,16 +1,21 @@
 import logging
 import typing as t
-from abc import ABC, abstractmethod
+from abc import ABC
+from abc import abstractmethod
 
 from httpx import Response
 from lxml import etree
-from lxml.etree import _Element
 from typing_extensions import override
 
 from http_client import RequestClient
-from utils import get_semester, get_year
+from utils import get_semester
+from utils import get_year
+
 from .common import VALIDATE_RULES
 from .exceptions import WrapperAPIException
+
+if t.TYPE_CHECKING:
+    from lxml.etree import _Element
 
 logger: logging.Logger = logging.getLogger(__name__)
 
@@ -34,18 +39,18 @@ class _APIBase(ABC):
     ]
 
     def __init__(
-        self,
-        *,
-        year: int | None = None,
-        semester: int | None = None,
-        degree: str = "%",
-        department: str = "%",
-        unit: str = "%",
-        class_year: str = "%",
-        class_type: str = "",
-        sub_name: str = "",
-        teacher: str = "",
-        hid_crk: str = "",
+            self,
+            *,
+            year: int | None = None,
+            semester: int | None = None,
+            degree: str = "%",
+            department: str = "%",
+            unit: str = "%",
+            class_year: str = "%",
+            class_type: str = "",
+            sub_name: str = "",
+            teacher: str = "",
+            hid_crk: str = "",
     ) -> None:
         self.year: int = year or get_year()
         self.semester: int = semester or get_semester()
@@ -113,15 +118,16 @@ class _APIBase(ABC):
             return False
 
     @abstractmethod
-    def result(self) -> list[tuple[str, str]]: ...
+    def result(self) -> list[tuple[str, str]]:
+        ...
 
 
 class _CommonAPI(_APIBase, ABC):
     def __init__(
-        self,
-        *,
-        year: int | None = None,
-        semester: int | None = None,
+            self,
+            *,
+            year: int | None = None,
+            semester: int | None = None,
     ) -> None:
         super().__init__(
             year=year or get_year(),

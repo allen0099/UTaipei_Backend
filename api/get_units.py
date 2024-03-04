@@ -1,12 +1,17 @@
 import logging
+from typing import TYPE_CHECKING
 
-from httpx import Response
 from lxml import etree
-from lxml.etree import _Element
 
-from utils import get_semester, get_year
+from utils import get_semester
+from utils import get_year
+
 from .api import _APIBase
 from .common import Department
+
+if TYPE_CHECKING:
+    from httpx import Response
+    from lxml.etree import _Element
 
 logger: logging.Logger = logging.getLogger(__name__)
 

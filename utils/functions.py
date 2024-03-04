@@ -6,10 +6,14 @@ from httpx import Response
 from lxml import etree
 from lxml.etree import _Element
 
-from api.common import Degree, Department, Grade, Unit
+from api.common import Degree
+from api.common import Department
+from api.common import Grade
+from api.common import Unit
 from exceptions import UTCAPIException
 from http_client import RequestClient
-from utils import get_semester, get_year
+from utils import get_semester
+from utils import get_year
 
 logger: logging.Logger = logging.getLogger(__name__)
 
@@ -188,7 +192,7 @@ def calc_time(time: str | None) -> list[int]:
             time_list.append(int(split[0]))
 
         else:
-            time_list = list(range(*map(lambda t: int(t[1]) + t[0], enumerate(split))))
+            time_list = list(range(*(int(t[1]) + t[0] for t in enumerate(split))))
 
     return time_list
 
@@ -204,11 +208,11 @@ def find_location(text: str | None = None) -> str:
 
 
 def new_split_teacher_time_location(text: str) -> dict[str, t.Any]:
-    teacher_obj = dict(
-        teacher="",
-        single_week=False,
-        times=[],
-    )
+    teacher_obj = {
+        "teacher": "",
+        "single_week": False,
+        "times": [],
+    }
 
     if text.startswith("(單週)"):
         teacher_obj["single_week"] = True
@@ -220,13 +224,10 @@ def new_split_teacher_time_location(text: str) -> dict[str, t.Any]:
 
         text = text.replace(teacher_name, "", 1)
 
-    if reg := [
-        _
-        for _ in re.finditer(
+    if reg := list(re.finditer(
             r"(?P<day>\([一二三四五六日]\)|時間未定)(?P<time>\d{1,2}(?:-\d{1,2})?)?(?P<location>[\[(][^])]{2,}[])])?",
             text,
-        )
-    ]:
+        )):
         for _ in reg:
             teacher_obj["times"].append(
                 {

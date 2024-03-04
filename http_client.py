@@ -5,20 +5,18 @@ from types import TracebackType
 
 import httpx
 from httpx._config import DEFAULT_TIMEOUT_CONFIG
-from httpx._types import (
-    AuthTypes,
-    CertTypes,
-    CookieTypes,
-    HeaderTypes,
-    ProxiesTypes,
-    QueryParamTypes,
-    RequestContent,
-    RequestData,
-    RequestFiles,
-    TimeoutTypes,
-    URLTypes,
-    VerifyTypes,
-)
+from httpx._types import AuthTypes
+from httpx._types import CertTypes
+from httpx._types import CookieTypes
+from httpx._types import HeaderTypes
+from httpx._types import ProxiesTypes
+from httpx._types import QueryParamTypes
+from httpx._types import RequestContent
+from httpx._types import RequestData
+from httpx._types import RequestFiles
+from httpx._types import TimeoutTypes
+from httpx._types import URLTypes
+from httpx._types import VerifyTypes
 
 import config
 
@@ -43,7 +41,7 @@ class RequestClient:
             else proxies
         )
 
-        logger.debug(f"Proxy: {proxy}")
+        logger.debug("Proxy: %s", proxy)
 
         self._client = httpx.Client(
             cookies=cookies,

@@ -1,12 +1,24 @@
 import logging
 from typing import Annotated
 
-from fastapi import APIRouter, Depends, Query, Response
+from fastapi import APIRouter
+from fastapi import Depends
+from fastapi import Query
+from fastapi import Response
 
-from api import GetCategory, GetDepartments, GetNotification, GetUnit, GetUnitByDepartment
-from api.common import DEGREE_MAP, Degree, Department, Grade, Unit
+from api import GetCategory
+from api import GetDepartments
+from api import GetNotification
+from api import GetUnit
+from api import GetUnitByDepartment
+from api.common import DEGREE_MAP
+from api.common import Degree
+from api.common import Department
+from api.common import Grade
+from api.common import Unit
 from responses import success_response
-from utils import get_semester, get_year
+from utils import get_semester
+from utils import get_year
 from utils.functions import get_courses
 
 logger: logging.Logger = logging.getLogger(__name__)

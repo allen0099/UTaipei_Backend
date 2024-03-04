@@ -5,11 +5,15 @@ import typing as t
 
 from httpx import Response
 from lxml import html
-from lxml.etree import _Element, _ElementUnicodeResult
 from lxml.html import HtmlElement
 
 from http_client import RequestClient
+
 from .exceptions import WrapperAPIException
+
+if t.TYPE_CHECKING:
+    from lxml.etree import _Element
+    from lxml.etree import _ElementUnicodeResult
 
 logger: logging.Logger = logging.getLogger(__name__)
 

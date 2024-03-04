@@ -27,7 +27,7 @@ def __load() -> None:
     """
     env_file: Path = BASE_FOLDER / ".env"
 
-    if os.path.isfile(env_file):
+    if Path.is_file(env_file):
         logger.info("Loading environment variables from .env file.")
         load_dotenv(env_file)
 

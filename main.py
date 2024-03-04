@@ -9,7 +9,8 @@ import config
 import routers
 from database import setup_database
 from exceptions import UTCAPIException
-from exceptions.handlers import handle_all_exception, handle_backend_api_exception
+from exceptions.handlers import handle_all_exception
+from exceptions.handlers import handle_backend_api_exception
 from middlewares import LogRequestMiddleware
 
 logger: logging.Logger = logging.getLogger(__name__)
