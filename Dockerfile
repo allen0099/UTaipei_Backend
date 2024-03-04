@@ -10,7 +10,7 @@ RUN pip install uv
 RUN uv venv /opt/venv
 
 COPY requirements.txt .
-RUN uv pip install --no-cache -r requirements.txt
+RUN uv pip install --no-cache -r requirements.txt --system
 
 FROM base AS production
 
