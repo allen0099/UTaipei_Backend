@@ -7,7 +7,7 @@ ENV PATH="/opt/venv/bin:$PATH"
 FROM base AS library
 
 RUN pip install uv
-RUN uv venv /opt/venv && source /opt/venv/bin/activate
+RUN uv venv /opt/venv
 
 COPY requirements.txt .
 RUN uv pip install --no-cache -r requirements.txt
